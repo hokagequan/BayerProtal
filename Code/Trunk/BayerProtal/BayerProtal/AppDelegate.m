@@ -162,23 +162,7 @@
 //    [alert show];
     
     // 开始获取消息
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager GET:[NSString stringWithFormat:@"http://%@/Bayer_portal/mobile/muser!MessageList.action",LocalHost] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        if([responseObject[@"SendMessageLog"] isKindOfClass:[NSArray class]]){
-            
-            for (NSDictionary *dic in responseObject[@"SendMessageLog"]) {
-                
-                BYinformation *info = [[BYinformation alloc]init];
-                [info setValuesForKeysWithDictionary:dic];
-                [tempArra addObject:info];
-            }
-        }
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-        
-    }];
+    
     
     return YES;
 }

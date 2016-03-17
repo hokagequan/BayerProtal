@@ -17,5 +17,6 @@ extension MessageEntity {
     @NSManaged var identifier: String?
     @NSManaged var content: String?
     @NSManaged var isRead: NSNumber?
+    @NSManaged var date: String?
 
 }

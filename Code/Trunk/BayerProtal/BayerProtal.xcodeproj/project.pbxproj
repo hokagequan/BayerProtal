@@ -11,6 +11,8 @@
 		100B1ABE1C9A8FD300BDB1FE /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B1ABD1C9A8FD300BDB1FE /* CoreDataManager.swift */; };
 		100B1AC11C9A90A500BDB1FE /* MessageEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B1ABF1C9A90A500BDB1FE /* MessageEntity+CoreDataProperties.swift */; };
 		100B1AC21C9A90A500BDB1FE /* MessageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B1AC01C9A90A500BDB1FE /* MessageEntity.swift */; };
+		100B1AC41C9A96CA00BDB1FE /* MessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B1AC31C9A96CA00BDB1FE /* MessageManager.swift */; };
+		100B1AC61C9A988A00BDB1FE /* BPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B1AC51C9A988A00BDB1FE /* BPManager.swift */; };
 		2B0B6BF61BE9DC8200A63EB1 /* CustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0B6BF51BE9DC8200A63EB1 /* CustomAlert.m */; };
 		2B0B6C061BE9FFEE00A63EB1 /* left_menu_x_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0B6C051BE9FFEE00A63EB1 /* left_menu_x_on.png */; };
 		2B2AB8881C28003600D025D3 /* Bayer.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B2AB8861C28003600D025D3 /* Bayer.png */; };
@@ -340,6 +342,8 @@
 		100B1ABD1C9A8FD300BDB1FE /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		100B1ABF1C9A90A500BDB1FE /* MessageEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MessageEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		100B1AC01C9A90A500BDB1FE /* MessageEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageEntity.swift; sourceTree = "<group>"; };
+		100B1AC31C9A96CA00BDB1FE /* MessageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageManager.swift; sourceTree = "<group>"; };
+		100B1AC51C9A988A00BDB1FE /* BPManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BPManager.swift; sourceTree = "<group>"; };
 		2B0B6BF41BE9DC8200A63EB1 /* CustomAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAlert.h; sourceTree = "<group>"; };
 		2B0B6BF51BE9DC8200A63EB1 /* CustomAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAlert.m; sourceTree = "<group>"; };
 		2B0B6C051BE9FFEE00A63EB1 /* left_menu_x_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_menu_x_on.png; sourceTree = "<group>"; };
@@ -854,6 +858,8 @@
 			isa = PBXGroup;
 			children = (
 				100B1ABD1C9A8FD300BDB1FE /* CoreDataManager.swift */,
+				100B1AC31C9A96CA00BDB1FE /* MessageManager.swift */,
+				100B1AC51C9A988A00BDB1FE /* BPManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -2031,6 +2037,7 @@
 				D0B252221A01EAA700DC624A /* JSONKit.m in Sources */,
 				848CEA1A19EE04F30021908A /* NSManagedObjectContext+MagicalObserving.m in Sources */,
 				84552CA71A01E302009EC51D /* GPLoadingView.m in Sources */,
+				100B1AC61C9A988A00BDB1FE /* BPManager.swift in Sources */,
 				8488F48619F4C138006C0879 /* SDWebImageManager.m in Sources */,
 				D017ACBB1A1F165800FFFFF7 /* CustomURLCache.m in Sources */,
 				D0B2521F1A01EAA700DC624A /* Base64.m in Sources */,
@@ -2072,6 +2079,7 @@
 				84C5A1C919D8058700772234 /* BossViewController.m in Sources */,
 				848CEA2219EE04F30021908A /* MagicalRecord+ErrorHandling.m in Sources */,
 				8488F48819F4C138006C0879 /* UIButton+WebCache.m in Sources */,
+				100B1AC41C9A96CA00BDB1FE /* MessageManager.swift in Sources */,
 				100B1AC21C9A90A500BDB1FE /* MessageEntity.swift in Sources */,
 				848CEA1019EE04F30021908A /* NSEntityDescription+MagicalDataImport.m in Sources */,
 				84A7606A19EB816B005A0343 /* UIImageView+AFNetworking.m in Sources */,
