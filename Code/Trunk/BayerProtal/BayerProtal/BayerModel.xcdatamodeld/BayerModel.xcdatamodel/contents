@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="AppCatagery" representedClassName="AppCatagery" syncable="YES">
+        <attribute name="catageryId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chineseName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="englishName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imagUrl" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="AppClickEntity" representedClassName="AppClickEntity" syncable="YES">
+        <attribute name="clickCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idStr" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="AppImageList" representedClassName="AppImageList" syncable="YES">
+        <attribute name="appId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imgPath" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="BYapp" representedClassName="BYapp" syncable="YES">
+        <attribute name="appCategoryId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="appCDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="appCname" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="appEDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="appEname" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="appId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="appIma" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="appUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chineseFirstLetter" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="clickCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="englishFirstLetter" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="BYinformation" representedClassName="BYinformation" syncable="YES">
+        <attribute name="createTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="information" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="informationId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isRead" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="userGroup" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="EnglishFirstLetter" representedClassName="EnglishFirstLetter" syncable="YES">
+        <attribute name="firstLetter" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="FAQinformation" representedClassName="FAQinformation" syncable="YES">
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="faqId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="FirstLetter" representedClassName="FirstLetter" syncable="YES">
+        <attribute name="firstLetter" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="AppCatagery" positionX="-9" positionY="9" width="128" height="105"/>
+        <element name="AppClickEntity" positionX="18" positionY="36" width="128" height="75"/>
+        <element name="AppImageList" positionX="-92" positionY="63" width="128" height="75"/>
+        <element name="BYapp" positionX="-92" positionY="-72" width="128" height="210"/>
+        <element name="BYinformation" positionX="70" positionY="-55" width="128" height="120"/>
+        <element name="EnglishFirstLetter" positionX="-9" positionY="9" width="128" height="58"/>
+        <element name="FAQinformation" positionX="-9" positionY="9" width="128" height="88"/>
+        <element name="FirstLetter" positionX="70" positionY="66" width="128" height="60"/>
+    </elements>
+</model>
