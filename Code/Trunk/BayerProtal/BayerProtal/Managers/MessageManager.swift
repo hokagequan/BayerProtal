@@ -28,6 +28,12 @@ class MessageManager: NSObject {
         return _messageManager
     }
     
+    override init() {
+        super.init()
+        
+//        self.insertMessages()
+    }
+    
     func getMessages(context: NSManagedObjectContext) -> Array<MessageEntity> {
         let fetchReq = NSFetchRequest(entityName: "MessageEntity")
         
@@ -38,6 +44,60 @@ class MessageManager: NSObject {
         }
         catch {
             return [MessageEntity]()
+        }
+    }
+    
+    func readAllMessage() {
+        let context = CoreDataManager.defalutManager().childContext()
+        context.performBlock { () -> Void in
+            let messages = self.getMessages(context)
+            for message in messages {
+                message.isRead = NSNumber(bool: true)
+            }
+            
+            do {
+                try context.save()
+                CoreDataManager.defalutManager().saveContext({ () -> Void in
+                    self.unReadCount = 0
+                })
+            }
+            catch {}
+        }
+    }
+    
+    func readMessage(context: NSManagedObjectContext, messageId: String, completion:(() -> Void)?) {
+        let fetchReq = NSFetchRequest(entityName: "MessageEntity")
+        fetchReq.predicate = NSPredicate(format: "identifier == %@", messageId)
+        
+        do {
+            let fetchObjects = try context.executeFetchRequest(fetchReq)
+            
+            if fetchObjects.count > 0 {
+                let message = fetchObjects.first as! MessageEntity
+                let manager = AFHTTPRequestOperationManager()
+                let date = BPManager.stringDate(NSDate())
+                manager.POST(BPManager.requestURL("Bayer_portal/mobile/mMessageRead.action"), parameters: ["deviceID": "", "send_message_id": message.identifier!, "send_message_content": message.content!, "open_message_time": date], success: { (operation, response) -> Void in
+                    context.performBlock({ () -> Void in
+                        message.isRead = NSNumber(bool: true)
+                        
+                        do {
+                            try context.save()
+                            CoreDataManager.defalutManager().saveContext({ () -> Void in
+                                completion?()
+                            })
+                        }
+                        catch {}
+                    })
+                    }, failure: { (operation, error) -> Void in
+                        completion?()
+                })
+            }
+            else {
+                completion?()
+            }
+        }
+        catch {
+            completion?()
         }
     }
     
@@ -85,6 +145,25 @@ class MessageManager: NSObject {
             
             }) { (operation, error) -> Void in
                 
+        }
+    }
+    
+    /// @brief 测试数据
+    func insertMessages() {
+        let context = CoreDataManager.defalutManager().childContext()
+        context.performBlock { () -> Void in
+            for i in 0...10 {
+                let message = MessageEntity.entity("\(i)", context: context)
+                message.identifier = "\(i)"
+                message.content = "content\(i)"
+                message.date = "2000"
+            }
+            
+            do {
+                try context.save()
+                CoreDataManager.defalutManager().saveContext(nil)
+            }
+            catch {}
         }
     }
     

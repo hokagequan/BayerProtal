@@ -82,7 +82,7 @@
 {
     UIButton * badgeValueView = (UIButton *)[self viewWithTag:100000];
     if (!badgeValueView) {
-        badgeValueView = [[UIButton alloc] initWithFrame:ccr(self.frame.size.width-60, 0, 40, 40)];
+        badgeValueView = [[UIButton alloc] initWithFrame:ccr(self.bounds.size.width - 40, 0, 40, 40)];
     }
      badgeValueView.tag = 100000;
     [badgeValueView setBackgroundImage:[UIImage imageNamed:@"u24.png"] forState:(UIControlStateNormal)];
@@ -91,6 +91,7 @@
     [badgeValueView setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     badgeValueView.adjustsImageWhenHighlighted = NO;
     [self addSubview:badgeValueView];
+    [self bringSubviewToFront:badgeValueView];
     
     if (![num isEqualToString:@"0"]) {
         badgeValueView.hidden = NO;
@@ -101,6 +102,6 @@
     else{
         badgeValueView.hidden = YES;
     }
-    
 }
+
 @end

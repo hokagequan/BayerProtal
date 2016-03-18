@@ -11,6 +11,7 @@
 #import "MessageTableViewCell.h"
 #import "BYinformation.h"
 #import "DetailMessageViewController.h"
+#import "BayerProtal-Swift.h"
 
 @interface MessageViewController ()
 {
@@ -69,6 +70,11 @@
     }
     [UItool refershMessageWithTime];
     [messageListTableView reloadData];
+    
+    // FIXME: Test
+    
+    [MessageManager defaultManager].unReadCount = 10;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refershMessage" object:nil];
 
 }
 -(void)refershMessage:(NSNotification *)noti
@@ -90,31 +96,48 @@
     else{
         titleLabel.text = @"Message";
     }
-    messageList = [LocalSqlManger selectAllMessage];
+//    messageList = [LocalSqlManger selectAllMessage];
 
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager GET:[NSString stringWithFormat:@"http://%@/Bayer_portal/mobile/muser!MessageList.action",LocalHost] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-
-        if([responseObject[@"SendMessageLog"] isKindOfClass:[NSArray class]]){
+//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    [manager GET:[NSString stringWithFormat:@"http://%@/Bayer_portal/mobile/muser!MessageList.action",LocalHost] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//
+//        if([responseObject[@"SendMessageLog"] isKindOfClass:[NSArray class]]){
+//        
+//            for (NSDictionary *dic in responseObject[@"SendMessageLog"]) {
+//                
+//                BYinformation *info = [[BYinformation alloc]init];
+//                [info setValuesForKeysWithDictionary:dic];
+//                [tempArra addObject:info];
+//            }
+//            [messageListTableView reloadData];
+//        }
+//        
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        
+//        
+//    }];
+//    
+//    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+//    NSMutableArray *array = [user objectForKey:@"messageArray"];
+//    tempArra = [NSMutableArray arrayWithArray:array];
+    
+    // FIXME: Test
+    NSManagedObjectContext *context = [CoreDataManager defalutManager].managedObjectContext;
+    messageList = [[MessageManager defaultManager] getMessages:context];
+    
+    tempArra = [NSMutableArray arrayWithArray:messageList];
+    
+    [messageListTableView reloadData];
+    
+    // QCW fix
+    [[MessageManager defaultManager] synthronizeMessages:^{
+        NSManagedObjectContext *context = [CoreDataManager defalutManager].managedObjectContext;
+        messageList = [[MessageManager defaultManager] getMessages:context];
+        tempArra = [NSMutableArray arrayWithArray:messageList];
         
-            for (NSDictionary *dic in responseObject[@"SendMessageLog"]) {
-                
-                BYinformation *info = [[BYinformation alloc]init];
-                [info setValuesForKeysWithDictionary:dic];
-                [tempArra addObject:info];
-            }
-            [messageListTableView reloadData];
-        }
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-        
+        [[MessageManager defaultManager] readAllMessage];
+        [messageListTableView reloadData];
     }];
-    
-    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    NSMutableArray *array = [user objectForKey:@"messageArray"];
-    tempArra = [NSMutableArray arrayWithArray:array];
-    
 }
 
 -(void)changeLanguage:(NSNotification *)noti
@@ -283,12 +306,19 @@
     else {
         NSRange range;
         
-        for (BYinformation *str  in messageList){
-            range = [str.information  rangeOfString:name];
+//        for (BYinformation *str  in messageList){
+//            range = [str.information  rangeOfString:name];
+//            
+//            if (range.location != NSNotFound){
+//                [tempArra addObject:str];
+//                
+//            }
+//        }
+        for (MessageEntity *message in messageList) {
+            range = [message.content rangeOfString:name];
             
-            if (range.location != NSNotFound){
-                [tempArra addObject:str];
-                
+            if (range.location != NSNotFound) {
+                [tempArra addObject:message];
             }
         }
         [messageListTableView reloadData];
@@ -327,9 +357,9 @@
        // messageCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         messageCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-   // BYinformation *info = [tempArra objectAtIndex:[indexPath row]];
-    //[messageCell initWithDescrption:info];
-    [messageCell initWithDescrptions:[tempArra objectAtIndex:[indexPath row]]];
+    
+    MessageEntity *message = tempArra[indexPath.row];
+    [messageCell initWithDescrptions:message.content];
     return messageCell;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPat{

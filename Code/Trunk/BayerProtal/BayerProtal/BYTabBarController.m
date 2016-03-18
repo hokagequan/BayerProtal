@@ -14,6 +14,8 @@
 #import "DXAlertView.h"
 #import "TabBarButton.h"
 
+#import "BayerProtal-Swift.h"
+
 @interface BYTabBarController ()<UIGestureRecognizerDelegate>
 {
      TabBarButton * appButton;
@@ -116,10 +118,11 @@
     if (self.selectedIndex == 1) {
         [UItool refershMessageWithTime];
     }
-        self.selectBtn.selected = NO;
-        messageButton.selected = YES;
-        self.selectBtn = messageButton;
-        self.selectedIndex = messageButton.tag;
+    
+    self.selectBtn.selected = NO;
+    messageButton.selected = YES;
+    self.selectBtn = messageButton;
+    self.selectedIndex = messageButton.tag;
 }
 
 -(void)TabrefershMessageWithTime
@@ -232,17 +235,16 @@
 
 -(void)tabRefershMessage:(NSNotification *)noti
 {
-    NSArray *arr = [LocalSqlManger selectClass:@"BYinformation" ThroughTheKey:@"isRead" and:@"0"];
-    int i = 0;
-    for (BYinformation *inforMation in arr) {
-        if ([inforMation.userGroup isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"userGroup"]]) {
-            i++;
-        }
-    }
+//    NSArray *arr = [LocalSqlManger selectClass:@"BYinformation" ThroughTheKey:@"isRead" and:@"0"];
+//    int i = 0;
+//    for (BYinformation *inforMation in arr) {
+//        if ([inforMation.userGroup isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"userGroup"]]) {
+//            i++;
+//        }
+//    }
     
-    
-        [messageButton setBadgeValueView:[NSString stringWithFormat:@"%d",i]];
-    
+    // QCW fix
+    [messageButton setBadgeValueView:[NSString stringWithFormat:@"%@", @([MessageManager defaultManager].unReadCount)]];
 }
 
 

@@ -40,6 +40,8 @@
 #import "CustomAlert.h"
 #import "RequestClient.h"
 
+#import "BayerProtal-Swift.h"
+
 //#import "AppDetailViewController.h"
 
 @implementation AppDelegate
@@ -160,9 +162,6 @@
 //    CustomAlert *alert = [[CustomAlert alloc] initWithTitle:@"解放几点刷卡是否刷卡?" contentText:@"收到了高考历史官方考数据的管理科室的解放感觉是挂靠价格收到了高收到了高考历史官方考数据的管理科室的解放感觉是格收到了高考历史官方考数据的管理科室的解放感觉是挂靠价格收到了高收到了高考历史官方考数据的管理科室的解放感觉是格"];
 //    alert.tag = 9;
 //    [alert show];
-    
-    // 开始获取消息
-    
     
     return YES;
 }
@@ -362,7 +361,8 @@
    // [[UIApplication sharedApplication] cancelAllLocalNotifications];
     
     if (application.applicationState == UIApplicationStateActive) {
-        [IpaRequestManger insertMessage];
+//        [IpaRequestManger insertMessage];
+        [[MessageManager defaultManager] synthronizeMessages:nil];
         if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"isVoiceOn"]isEqualToString:@"on"]) {
             AudioServicesPlaySystemSound(1152);
         }
@@ -377,7 +377,7 @@
             std = @"OK";
             stm = @"You have a new message";
         }
-             }
+    }
     
     if ([[ [NSUserDefaults standardUserDefaults] objectForKey:@"userGroup"]isEqual:@"BHC"]) {
 
@@ -398,7 +398,7 @@
             alert.tag = 9;
             [alert show];
         }
-        [ByServerURL sendMessageRecord:string];//发送已读消息记录
+//        [ByServerURL sendMessageRecord:string];//发送已读消息记录
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
 
         if (![user objectForKey:@"messageArray"]) {
@@ -500,6 +500,9 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [[MessageManager defaultManager] synthronizeMessages:^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"refershMessage" object:nil];
+    }];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
