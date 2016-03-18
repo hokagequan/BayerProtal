@@ -91,8 +91,6 @@
         titleLabel.text = @"Message";
     }
     messageList = [LocalSqlManger selectAllMessage];
-    
-    
 
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager GET:[NSString stringWithFormat:@"http://%@/Bayer_portal/mobile/muser!MessageList.action",LocalHost] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -112,8 +110,6 @@
         
         
     }];
-
-    
     
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
     NSMutableArray *array = [user objectForKey:@"messageArray"];

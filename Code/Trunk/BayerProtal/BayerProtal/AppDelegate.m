@@ -289,8 +289,8 @@
     [alert show];
     
     //判断是否已经提交过deviceID
-    
-    if (![USERDEFSULT objectForKey:DEVICEID]) {
+//    if (![USERDEFSULT objectForKey:DEVICEID]) {
+    if ([[[NSUserDefaults standardUserDefaults] stringForKey:@"userGroup"] isEqualToString:@"BHC"]) {
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
 
         manager.requestSerializer.timeoutInterval = 30;
@@ -309,7 +309,7 @@
         }];
  
    }
-//    
+//
 //    [BPush registerDeviceToken: deviceToken];
 //    [BPush bindChannel];
     
