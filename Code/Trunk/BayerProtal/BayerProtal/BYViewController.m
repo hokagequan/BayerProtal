@@ -103,68 +103,66 @@
 {
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeTheLuange:) name:@"changeLanguage" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(BYviewRefreshAll:) name:@"refreshAll" object:nil];
    
-    // FIXME: Test
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeTheLuange:) name:@"changeLanguage" object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(BYviewRefreshAll:) name:@"refreshAll" object:nil];
-//   
-//    if ([UItool isConnectionAvailable]) {
-//        [BYloadView loadState:YES];//////////////////////////
-//        __block NSString *std;
-//        __block int k=0;
-//         __block int p =0;
-//        [IpaRequestManger refreshContents:^(int n,NSString *str) {
-//           // NSLog(@"====%d==%@",n,str);
-//            if (![str isEqualToString:@"no"]) {
-//                std=str;
-//            }
-//            if (n!=0) {
-//                k=n;
-//            }
-////            if (k%3==0) {
-////                [[NSNotificationCenter defaultCenter]postNotificationName:@"refreshAll" object:self userInfo:nil];
-////                [[NSNotificationCenter defaultCenter]postNotificationName:@"refershMessage" object:self];
-////                //[self relo];
-////                [BYloadView loadState:NO];
-////            }
-//            
-//            if ((k%3==0&&![std isEqualToString:@"failed"])||(k%3==0&&[std isEqualToString:@"noImage"])) {
+    if ([UItool isConnectionAvailable]) {
+        [BYloadView loadState:YES];//////////////////////////
+        __block NSString *std;
+        __block int k=0;
+         __block int p =0;
+        [IpaRequestManger refreshContents:^(int n,NSString *str) {
+           // NSLog(@"====%d==%@",n,str);
+            if (![str isEqualToString:@"no"]) {
+                std=str;
+            }
+            if (n!=0) {
+                k=n;
+            }
+//            if (k%3==0) {
 //                [[NSNotificationCenter defaultCenter]postNotificationName:@"refreshAll" object:self userInfo:nil];
 //                [[NSNotificationCenter defaultCenter]postNotificationName:@"refershMessage" object:self];
+//                //[self relo];
 //                [BYloadView loadState:NO];
 //            }
-//            
-//            else if (k%3 ==0 && [std isEqualToString:@"failed"]&&p!=1){
-//                p=1;
-//                if ([UItool isChinese]==YES) {
-//                    std = @"加载失败，请确保网络处于连接状态且VPN已打开。";
-//                    str = @"提示";
-//                }
-//                else{
-//                    std = @"Loading failed, please ensure the internet and VPN are connected.";
-//                    str = @"Alert";
-//                }
-//                [BYloadView loadState:NO];
-//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:str message:std delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-//                [alert show];
-//
-//            }
-//             NSLog(@"====%d====std===%@",k,std);
-//        }];
-//            }
-//    [self navView];
-//    [self lodaCatagoryDate];
-//    self.view.backgroundColor = [UIColor colorWithRed:238/256.0 green:238/256.0 blue:238/256.0 alpha:1];
-//    [self makeTableView];
-//    
-//    aphaView = [[UIView alloc] initWithFrame:ccr(0, Nav_HEIGHT, VIEW_W(self.view), VIEW_H(self.view)-Nav_HEIGHT)];
-//    aphaView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
-//    aphaView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-//    aphaView.hidden = YES;
-//    [self.view addSubview:aphaView];
-//    
-//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(outDoSomethings:)];
-//    [aphaView addGestureRecognizer:tap];
+            
+            if ((k%3==0&&![std isEqualToString:@"failed"])||(k%3==0&&[std isEqualToString:@"noImage"])) {
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"refreshAll" object:self userInfo:nil];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"refershMessage" object:self];
+                [BYloadView loadState:NO];
+            }
+            
+            else if (k%3 ==0 && [std isEqualToString:@"failed"]&&p!=1){
+                p=1;
+                if ([UItool isChinese]==YES) {
+                    std = @"加载失败，请确保网络处于连接状态且VPN已打开。";
+                    str = @"提示";
+                }
+                else{
+                    std = @"Loading failed, please ensure the internet and VPN are connected.";
+                    str = @"Alert";
+                }
+                [BYloadView loadState:NO];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:str message:std delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                [alert show];
+
+            }
+             NSLog(@"====%d====std===%@",k,std);
+        }];
+            }
+    [self navView];
+    [self lodaCatagoryDate];
+    self.view.backgroundColor = [UIColor colorWithRed:238/256.0 green:238/256.0 blue:238/256.0 alpha:1];
+    [self makeTableView];
+    
+    aphaView = [[UIView alloc] initWithFrame:ccr(0, Nav_HEIGHT, VIEW_W(self.view), VIEW_H(self.view)-Nav_HEIGHT)];
+    aphaView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
+    aphaView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    aphaView.hidden = YES;
+    [self.view addSubview:aphaView];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(outDoSomethings:)];
+    [aphaView addGestureRecognizer:tap];
     
     
 }

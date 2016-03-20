@@ -76,18 +76,21 @@ class MessageManager: NSObject {
                 let message = fetchObjects.first as! MessageEntity
                 let manager = AFHTTPRequestOperationManager()
                 let date = BPManager.stringDate(NSDate())
+                
+                context.performBlock({ () -> Void in
+                    message.isRead = NSNumber(bool: true)
+                    
+                    do {
+                        try context.save()
+                        CoreDataManager.defalutManager().saveContext({ () -> Void in
+                            completion?()
+                        })
+                    }
+                    catch {}
+                })
+                
                 manager.POST(BPManager.requestURL("Bayer_portal/mobile/mMessageRead.action"), parameters: ["deviceID": "", "send_message_id": message.identifier!, "send_message_content": message.content!, "open_message_time": date], success: { (operation, response) -> Void in
-                    context.performBlock({ () -> Void in
-                        message.isRead = NSNumber(bool: true)
-                        
-                        do {
-                            try context.save()
-                            CoreDataManager.defalutManager().saveContext({ () -> Void in
-                                completion?()
-                            })
-                        }
-                        catch {}
-                    })
+                    completion?()
                     }, failure: { (operation, error) -> Void in
                         completion?()
                 })

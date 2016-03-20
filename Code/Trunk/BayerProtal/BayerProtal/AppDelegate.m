@@ -116,7 +116,7 @@
             
             NSArray *StringArray = [string componentsSeparatedByString:@"/"]; //从字符A中分隔成2个元素的数组
             
-            
+            // TODO: 设置该信息已读
             if (StringArray.count==2) {
                 CustomAlert *alert = [[CustomAlert alloc] initWithTitle:StringArray[0] contentText:StringArray[1]];
                 alert.tag = 9;

@@ -11,6 +11,7 @@
 #import "MessageTableViewCell.h"
 #import "BYinformation.h"
 #import "DetailMessageViewController.h"
+#import "CustomAlert.h"
 #import "BayerProtal-Swift.h"
 
 @interface MessageViewController ()
@@ -70,11 +71,6 @@
     }
     [UItool refershMessageWithTime];
     [messageListTableView reloadData];
-    
-    // FIXME: Test
-    
-    [MessageManager defaultManager].unReadCount = 10;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"refershMessage" object:nil];
 
 }
 -(void)refershMessage:(NSNotification *)noti
@@ -122,12 +118,12 @@
 //    tempArra = [NSMutableArray arrayWithArray:array];
     
     // FIXME: Test
-    NSManagedObjectContext *context = [CoreDataManager defalutManager].managedObjectContext;
-    messageList = [[MessageManager defaultManager] getMessages:context];
-    
-    tempArra = [NSMutableArray arrayWithArray:messageList];
-    
-    [messageListTableView reloadData];
+//    NSManagedObjectContext *context = [CoreDataManager defalutManager].managedObjectContext;
+//    messageList = [[MessageManager defaultManager] getMessages:context];
+//    
+//    tempArra = [NSMutableArray arrayWithArray:messageList];
+//    
+//    [messageListTableView reloadData];
     
     // QCW fix
     [[MessageManager defaultManager] synthronizeMessages:^{
@@ -360,6 +356,20 @@
     
     MessageEntity *message = tempArra[indexPath.row];
     [messageCell initWithDescrptions:message.content];
+    
+    if ([message.isRead isEqualToNumber:@(YES)]) {//Helvetica
+        [messageCell.timeLabel setFont:[UIFont fontWithName:@"Helvetica" size:18]];
+        [messageCell.desLabel setFont:[UIFont fontWithName:@"Helvetica" size:18]];
+        messageCell.desLabel.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1.0];
+        messageCell.timeLabel.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1.0];
+    }
+    else{
+        [messageCell.timeLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:18]];
+        [messageCell.desLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:18]];
+        messageCell.desLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
+        messageCell.timeLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
+    }
+    
     return messageCell;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPat{
@@ -374,22 +384,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    MessageEntity *message = tempArra[indexPath.row];
+    NSManagedObjectContext *context = [[CoreDataManager defalutManager] childContext];
+    message.isRead = @(YES);
+    [[MessageManager defaultManager] readMessage:context messageId:message.identifier completion:nil]
+    ;
     
-//    NSString *subject = @"Message subject";//邮件主题
-//    NSString *body = @"Message body";//邮件内容
-//    NSString *address = @"test1@akosma.com";//收件
-//    NSString *cc = @"test2@akosma.com";//抄送
-//    NSString *path = [NSString stringWithFormat:@"mailto:%@?cc=%@&subject=%@&body=%@", address, cc, subject, body];
-//    NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-//    [[UIApplication sharedApplication] openURL:url];
-//    DetailMessageViewController *detailMessage = [[DetailMessageViewController alloc] init];
-//    //参数传递
-//    BYinformation *byInfor = [tempArra objectAtIndex:[indexPath row]];
-//    detailMessage.information =byInfor;
-//    [self.navigationController pushViewController:detailMessage animated:NO];
+    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
     
-   // [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"http://sp-coll-bhc.ap.bayer.cnb/sites/250003/compliance/SitePages/OrgChart.aspx"]];
-    
+    CustomAlert *alert = [[CustomAlert alloc] initWithTitle:nil contentText:message.content];
+    alert.tag = 9;
+    [alert show];
 }
 
 
