@@ -116,7 +116,9 @@
             
             NSArray *StringArray = [string componentsSeparatedByString:@"/"]; //从字符A中分隔成2个元素的数组
             
-            // TODO: 设置该信息已读
+            NSString *messageID = [remoteNotification objectForKey:@"send_message_id"];
+            NSManagedObjectContext *context = [[CoreDataManager defalutManager] childContext];
+            [[MessageManager defaultManager] readMessage:context messageId:messageID completion:nil];
             if (StringArray.count==2) {
                 CustomAlert *alert = [[CustomAlert alloc] initWithTitle:StringArray[0] contentText:StringArray[1]];
                 alert.tag = 9;
@@ -162,6 +164,21 @@
 //    CustomAlert *alert = [[CustomAlert alloc] initWithTitle:@"解放几点刷卡是否刷卡?" contentText:@"收到了高考历史官方考数据的管理科室的解放感觉是挂靠价格收到了高收到了高考历史官方考数据的管理科室的解放感觉是格收到了高考历史官方考数据的管理科室的解放感觉是挂靠价格收到了高收到了高考历史官方考数据的管理科室的解放感觉是格"];
 //    alert.tag = 9;
 //    [alert show];
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8) {
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIRemoteNotificationTypeBadge
+                                                                                             |UIRemoteNotificationTypeSound
+                                                                                             |UIRemoteNotificationTypeAlert) categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+        [application registerForRemoteNotifications];
+        if ([[[UIApplication sharedApplication] currentUserNotificationSettings] types] == UIRemoteNotificationTypeNone) {
+        }
+    } else {
+        // Apple Push Notification Service
+        [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
+        if ([[UIApplication sharedApplication] enabledRemoteNotificationTypes] == UIRemoteNotificationTypeNone) {
+        }
+    }
     
     return YES;
 }
@@ -283,9 +300,6 @@
     deviceStr = [deviceStr stringByReplacingOccurrencesOfString:@"<" withString:@""];
     deviceStr = [deviceStr stringByReplacingOccurrencesOfString:@">" withString:@""];
     NSLog(@"deviceStr = %@",deviceStr);
-    
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:deviceStr message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil];
-    [alert show];
     
     //判断是否已经提交过deviceID
 //    if (![USERDEFSULT objectForKey:DEVICEID]) {
