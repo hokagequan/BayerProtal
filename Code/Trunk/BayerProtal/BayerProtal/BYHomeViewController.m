@@ -198,6 +198,7 @@
     navView.frame = ccr(0, 0, self.view.frame.size.width, Nav_HEIGHT);
     navView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     navView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"header_bg.png"]];
+    navView.backgroundColor = [UIColor colorWithRed:4/255.0 green:126/255.0 blue:163/255.0 alpha:1.0];
     [self.view addSubview:navView];
     
     UIButton *logoBT = [[UIButton alloc] initWithFrame:ccr(self.view.frame.size.width-73, (Nav_HEIGHT-63)/2, 63, 63)];

@@ -209,6 +209,7 @@
 {
     NavView = [[UIView alloc] initWithFrame:ccr(0, 0, 1024, Nav_HEIGHT)];
     NavView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"header_bg.png"]];
+    NavView.backgroundColor = [UIColor colorWithRed:4/255.0 green:126/255.0 blue:163/255.0 alpha:1.0];
     titleLabel = [[UILabel alloc] initWithFrame:ccr(NavView.frame.size.width/2-100, NavView.frame.size.height/2-50, 200, 100)];
     titleLabel.textAlignment =NSTextAlignmentCenter;
     titleLabel.textColor = [UIColor whiteColor];

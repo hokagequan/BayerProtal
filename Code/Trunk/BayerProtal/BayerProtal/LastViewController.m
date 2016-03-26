@@ -148,6 +148,7 @@
     navView = [[UIView alloc] initWithFrame:ccr(0, 0, 1024, Nav_HEIGHT)];
     navView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     navView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"header_bg.png"]];
+    navView.backgroundColor = [UIColor colorWithRed:4/255.0 green:126/255.0 blue:163/255.0 alpha:1.0];
     titleLabel = [[UILabel alloc] initWithFrame:ccr(1024/2-100, Nav_HEIGHT/2-50, 200, 100)];
     titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     titleLabel.textAlignment = NSTextAlignmentCenter;

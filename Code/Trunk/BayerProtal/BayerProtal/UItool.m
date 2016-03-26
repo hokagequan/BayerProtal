@@ -324,7 +324,7 @@ static UIImageView *imageView_ = nil;
 + (NSString *) getAppVersion
 {
 	NSDictionary *dic = [[NSBundle mainBundle] infoDictionary];
-	NSString *version = [dic objectForKey:@"CFBundleVersion"];
+	NSString *version = [dic objectForKey:@"CFBundleShortVersionString"];
 	
 	return version;
 }

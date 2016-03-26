@@ -35,6 +35,7 @@
 {
     NavView = [[UIView alloc] initWithFrame:ccr(0, 0, self.view.frame.size.height, Nav_HEIGHT)];
     NavView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"header_bg.png"]];
+    NavView.backgroundColor = [UIColor colorWithRed:4/255.0 green:126/255.0 blue:163/255.0 alpha:1.0];
     UILabel * titleLabel = [[UILabel alloc] initWithFrame:ccr(NavView.frame.size.width/2-100, NavView.frame.size.height/2-50, 200, 100)];
     titleLabel.text = @"Refresh";
     [NavView addSubview:titleLabel];

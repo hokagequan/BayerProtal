@@ -100,6 +100,7 @@
     
     naVview = [[UIView alloc] initWithFrame:ccr(0, 0, SCREEN_WIDTH , Nav_HEIGHT)];
     naVview.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"header_bg.png"]];
+    naVview.backgroundColor = [UIColor colorWithRed:4/255.0 green:126/255.0 blue:163/255.0 alpha:1.0];
     [self.view addSubview:naVview];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     button.frame = ccr(110,(Nav_HEIGHT-31)/2 -10, 50, 50);

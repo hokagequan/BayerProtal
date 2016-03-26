@@ -72,7 +72,7 @@
     //myTabView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"left_menu_x.png"]];//[UIColor colorWithWhite: alpha:0];
    // lineView.backgroundColor = [UIColor blackColor];
    // [myTabView addSubview:lineView];
-    myTabView.backgroundColor = [UIColor colorWithRed:15/255.0 green:105/255.0 blue:155/255.0 alpha:1.0];
+    myTabView.backgroundColor = [UIColor colorWithRed:4/255.0 green:126/255.0 blue:163/255.0 alpha:1.0];
     [self.view addSubview:myTabView];
     [self makeButton];
     [self loadDataTab];
