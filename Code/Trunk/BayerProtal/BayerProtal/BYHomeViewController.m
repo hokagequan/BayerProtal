@@ -203,6 +203,7 @@
     UIButton *logoBT = [[UIButton alloc] initWithFrame:ccr(self.view.frame.size.width-73, (Nav_HEIGHT-63)/2, 63, 63)];
     logoBT.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
     [logoBT setImage:[UIImage imageNamed:@"logo.png"] forState:UIControlStateNormal];
+    logoBT.hidden = YES;
     [navView addSubview:logoBT];
     label = [[UILabel alloc] initWithFrame:ccr(logoBT.frame.size.width+8, (Nav_HEIGHT-53)/2, 200, 53)];
     label.font = [UIFont systemFontOfSize:30];

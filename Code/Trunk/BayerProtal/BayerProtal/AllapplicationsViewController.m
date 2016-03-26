@@ -161,7 +161,7 @@
     button.frame = ccr(110,(Nav_HEIGHT-31)/2 -10, 50, 50);
     button.titleLabel.font = [UIFont systemFontOfSize:28];
     //[button setTitle:@"back" forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage imageNamed:@"back_btn.png"] forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:@"back_btn.png"] forState:UIControlStateNormal];
     [button setTitleColor:[UIColor colorWithRed:95/255.0 green:158/255.0 blue:160/255.0 alpha:1] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.navgationView addSubview:button];
@@ -179,6 +179,7 @@
     self.lognBT.image = [UIImage imageNamed:@"logo.png"];
     self.titleLabel.frame = ccr(SCREEN_WIDTH/2-100, self.navgationView.frame.size.height/2-35, 200, 100);
    self. lognBT.frame = ccr(1024-80, (Nav_HEIGHT-45)/2, 53, 53);
+    self.lognBT.hidden = YES;
 
 
 }

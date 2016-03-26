@@ -104,7 +104,7 @@
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     button.frame = ccr(110,(Nav_HEIGHT-31)/2 -10, 50, 50);
     button.titleLabel.font = [UIFont systemFontOfSize:28];
-    [button setBackgroundImage:[UIImage imageNamed:@"back_btn.png"] forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:@"back_btn.png"] forState:UIControlStateNormal];
    // [button setTitle:@"back" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor colorWithRed:95/255.0 green:158/255.0 blue:160/255.0 alpha:1] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
@@ -130,6 +130,7 @@
     messageLabel.numberOfLines = 0;
     lognBT = [[UIButton alloc] initWithFrame:CGRectZero];
     [lognBT setImage:[UIImage imageNamed:@"logo.png"] forState:UIControlStateNormal];
+    lognBT.hidden = YES;
     [naVview addSubview:lognBT];
     messageLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
 }

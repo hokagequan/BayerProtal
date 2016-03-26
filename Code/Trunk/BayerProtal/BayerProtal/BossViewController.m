@@ -46,7 +46,7 @@
 
     self.BackBt.titleLabel.font = [UIFont systemFontOfSize:28];
     //[button setTitle:@"back" forState:UIControlStateNormal];
-    [self.BackBt setBackgroundImage:[UIImage imageNamed:@"back_btn.png"] forState:UIControlStateNormal];
+    [self.BackBt setImage:[UIImage imageNamed:@"back_btn.png"] forState:UIControlStateNormal];
     [self.BackBt setTitleColor:[UIColor colorWithRed:95/255.0 green:158/255.0 blue:160/255.0 alpha:1] forState:UIControlStateNormal];
     [self.BackBt addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
     [self.navgationView addSubview:self.BackBt];
@@ -63,7 +63,7 @@
     [self.navgationView addSubview:self.lognBT];
     self.lognBT.image = [UIImage imageNamed:@"logo.png"];
   //  [self.lognBT setImage:[UIImage imageNamed:@"logo.png"] forState:UIControlStateNormal];
-    
+    self.lognBT.hidden = YES;
     
     
 }

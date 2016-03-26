@@ -55,15 +55,18 @@
 {
     if ([UItool isChinese]==YES) {
         titleLabel.text = @"设置";
-        [exitButton setImage:[UIImage imageNamed:@"logout_btn.png"] forState:UIControlStateNormal];
+        [exitButton setTitle:@"退出登录" forState:UIControlStateNormal];
     }
     else{
         titleLabel.text = @"Settings";
-        [exitButton setImage:[UIImage imageNamed:@"sign_out.png"] forState:UIControlStateNormal];
+        [exitButton setTitle:@"Sign Out" forState:UIControlStateNormal];
 
     }
     
-
+    [exitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    exitButton.backgroundColor = [UIColor colorWithRed:250 / 255. green:43 / 255. blue:52 / 255. alpha:1.0  ];
+    exitButton.layer.cornerRadius = 5.0;
+    exitButton.layer.masksToBounds = YES;
     
 }
 -(void)changeLanguage:(NSNotification *)noti
@@ -153,6 +156,7 @@
     lognBT = [[UIImageView alloc] initWithFrame:CGRectZero];
     [NavView addSubview:lognBT];
     lognBT.image = [UIImage imageNamed:@"logo.png"];
+    lognBT.hidden = YES;
    // [lognBT setImage:[UIImage imageNamed:@"logo.png"] forState:UIControlStateNormal];
     
 }

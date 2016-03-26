@@ -13,6 +13,7 @@
 		100B1AC21C9A90A500BDB1FE /* MessageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B1AC01C9A90A500BDB1FE /* MessageEntity.swift */; };
 		100B1AC41C9A96CA00BDB1FE /* MessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B1AC31C9A96CA00BDB1FE /* MessageManager.swift */; };
 		100B1AC61C9A988A00BDB1FE /* BPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B1AC51C9A988A00BDB1FE /* BPManager.swift */; };
+		10D523FE1CA56F2D00711A04 /* View.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10D523FD1CA56F2D00711A04 /* View.xib */; };
 		2B0B6BF61BE9DC8200A63EB1 /* CustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0B6BF51BE9DC8200A63EB1 /* CustomAlert.m */; };
 		2B0B6C061BE9FFEE00A63EB1 /* left_menu_x_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0B6C051BE9FFEE00A63EB1 /* left_menu_x_on.png */; };
 		2B2AB8881C28003600D025D3 /* Bayer.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B2AB8861C28003600D025D3 /* Bayer.png */; };
@@ -344,6 +345,7 @@
 		100B1AC01C9A90A500BDB1FE /* MessageEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageEntity.swift; sourceTree = "<group>"; };
 		100B1AC31C9A96CA00BDB1FE /* MessageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageManager.swift; sourceTree = "<group>"; };
 		100B1AC51C9A988A00BDB1FE /* BPManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BPManager.swift; sourceTree = "<group>"; };
+		10D523FD1CA56F2D00711A04 /* View.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = View.xib; sourceTree = "<group>"; };
 		2B0B6BF41BE9DC8200A63EB1 /* CustomAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAlert.h; sourceTree = "<group>"; };
 		2B0B6BF51BE9DC8200A63EB1 /* CustomAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAlert.m; sourceTree = "<group>"; };
 		2B0B6C051BE9FFEE00A63EB1 /* left_menu_x_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_menu_x_on.png; sourceTree = "<group>"; };
@@ -1424,6 +1426,7 @@
 				840EFAC81A1DB1CC0003C283 /* UIWebView+SearchWebView.h */,
 				840EFAC91A1DB1CC0003C283 /* UIWebView+SearchWebView.m */,
 				100B1ABC1C9A8FD200BDB1FE /* BayerProtal-Bridging-Header.h */,
+				10D523FD1CA56F2D00711A04 /* View.xib */,
 			);
 			path = BayerProtal;
 			sourceTree = "<group>";
@@ -1919,6 +1922,7 @@
 				840B78D41A1F53F400AE2696 /* e8.png in Resources */,
 				841E8F4A19D3EB0C0031AD6C /* u54.png in Resources */,
 				8454999819F8B9A4009122DB /* background_y.png in Resources */,
+				10D523FE1CA56F2D00711A04 /* View.xib in Resources */,
 				2B2AB88C1C2803B400D025D3 /* Bayer-.png in Resources */,
 				8454998919F8B9A4009122DB /* left_menu_y_on.png in Resources */,
 				841E8F4619D3EB0C0031AD6C /* u46.png in Resources */,
@@ -2293,8 +2297,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2324,8 +2328,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

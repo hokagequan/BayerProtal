@@ -253,7 +253,7 @@
     lognBT.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
     [navView addSubview:lognBT];
     lognBT.image = [UIImage imageNamed:@"logo.png"];
-    
+    lognBT.hidden = YES;
     
     titleLabel.frame = ccr(SCREEN_WIDTH/2-100, navView.frame.size.height/2-35, 200, 100);
     lognBT.frame = ccr(1024-80, (Nav_HEIGHT-45)/2, 53, 53);
