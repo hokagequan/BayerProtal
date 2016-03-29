@@ -378,6 +378,8 @@
 
     UIImageView *iconImageView = [[UIImageView alloc]initWithFrame:ccr(TabBar_WIDTH/2-35, 0*myTabView.frame.size.height/9+20, 60, 60)];
     iconImageView.image = [UIImage imageNamed:@"0拜助理-0_03"];
+    iconImageView.layer.cornerRadius = 30.0;
+    iconImageView.layer.masksToBounds = YES;
 
     [myTabView addSubview:iconImageView];
     [myTabView addSubview:appButton];

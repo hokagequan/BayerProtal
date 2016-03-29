@@ -42,7 +42,7 @@
     self.navgationView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"header_bg.png"]];
     self.navgationView.backgroundColor = [UIColor colorWithRed:4/255.0 green:126/255.0 blue:163/255.0 alpha:1.0];
     [self.view addSubview:self.navgationView];
-    self.BackBt = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.BackBt = [UIButton buttonWithType:UIButtonTypeCustom];
     self.BackBt.frame = ccr(110,(Nav_HEIGHT-31)/2 -10, 50, 50);
 
     self.BackBt.titleLabel.font = [UIFont systemFontOfSize:28];

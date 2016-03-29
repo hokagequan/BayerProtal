@@ -206,20 +206,20 @@
     [logoBT setImage:[UIImage imageNamed:@"logo.png"] forState:UIControlStateNormal];
     logoBT.hidden = YES;
     [navView addSubview:logoBT];
-    label = [[UILabel alloc] initWithFrame:ccr(logoBT.frame.size.width+8, (Nav_HEIGHT-53)/2, 200, 53)];
+    label = [[UILabel alloc] initWithFrame:ccr(logoBT.frame.size.width+8, (Nav_HEIGHT)/3+15, 200, Nav_HEIGHT/2)];
     label.font = [UIFont systemFontOfSize:30];
     label.textColor = [UIColor whiteColor];
     
     [navView addSubview:label];
     
     
-    englishBut = [[UIButton alloc] initWithFrame:ccr(self.view.frame.size.width-210, Nav_HEIGHT/3+25, 130, Nav_HEIGHT/3)];
+    englishBut = [[UIButton alloc] initWithFrame:ccr(self.view.frame.size.width-230, Nav_HEIGHT/3+15, 130, Nav_HEIGHT/2)];
    // englishBut.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
     //englishBut.titleLabel.font = [UIFont systemFontOfSize:30];
     [englishBut setTitle:@"English" forState:UIControlStateNormal];
     [navView addSubview:englishBut];
     
-    chineseBut = [[UIButton alloc] initWithFrame:ccr(self.view.frame.size.width-180-20-englishBut.frame.size.width, Nav_HEIGHT/3+25, 100, Nav_HEIGHT/3)];
+    chineseBut = [[UIButton alloc] initWithFrame:ccr(self.view.frame.size.width-160-20-englishBut.frame.size.width, Nav_HEIGHT/3+15, 100, Nav_HEIGHT/2)];
    // chineseBut.titleLabel.font = [UIFont systemFontOfSize:30];
     [chineseBut setTitle:@"中文" forState:UIControlStateNormal];
     [navView addSubview:chineseBut];
@@ -227,16 +227,16 @@
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"languageTag"]isEqualToString:@"english"]) {
 //        [chineseBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 //        [englishBut setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        [englishBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30]];
-        [chineseBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:22]];
+        [englishBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica" size:30]];
+        [chineseBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica" size:30]];
         label.text = @"Bay Assistant";
     }
     else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"languageTag"]isEqualToString:@"chinese"])
     {
 //        [chineseBut setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
 //        [englishBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [chineseBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30]];
-        [englishBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:22]];
+        [chineseBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica" size:30]];
+        [englishBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica" size:30]];
         label.text = @"拜助理";
     }
     else
@@ -245,8 +245,8 @@
         [[NSUserDefaults standardUserDefaults]synchronize];
 //        [chineseBut setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
 //        [englishBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [chineseBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30]];
-        [englishBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:22]];
+        [chineseBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica" size:30]];
+        [englishBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica" size:30]];
         label.text = @"拜助理";
 
     }
@@ -256,6 +256,7 @@
     view1.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin ;
     [navView addSubview:view1];
     view1.backgroundColor = [UIColor whiteColor];
+    view1.hidden = YES;
     
     chineseBut.tag = 1;
     englishBut.tag = 2;
@@ -339,8 +340,8 @@
     if (but.tag==1) {
         [[NSUserDefaults standardUserDefaults]setObject:@"chinese" forKey:@"languageTag"];
         [[NSUserDefaults standardUserDefaults]synchronize];
-        [chineseBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30]];
-        [englishBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:22]];
+        [chineseBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica" size:30]];
+        [englishBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica" size:30]];
         label.text = @"拜助理";
 //        [chineseBut setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
 //        [englishBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -350,8 +351,8 @@
         [[NSUserDefaults standardUserDefaults]setObject:@"english" forKey:@"languageTag"];
          [[NSUserDefaults standardUserDefaults]synchronize];
        // [chineseBut setTitle:@"chinese" forState:UIControlStateNormal];
-        [englishBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30]];
-        [chineseBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:22]];
+        [englishBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica" size:30]];
+        [chineseBut.titleLabel setFont:[UIFont fontWithName:@"Helvetica" size:30]];
         label.text = @"Bay Assistant";
 //        [chineseBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 //        [englishBut setTitleColor:[UIColor redColor] forState:UIControlStateNormal];

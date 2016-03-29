@@ -102,7 +102,7 @@
     naVview.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"header_bg.png"]];
     naVview.backgroundColor = [UIColor colorWithRed:4/255.0 green:126/255.0 blue:163/255.0 alpha:1.0];
     [self.view addSubview:naVview];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = ccr(110,(Nav_HEIGHT-31)/2 -10, 50, 50);
     button.titleLabel.font = [UIFont systemFontOfSize:28];
     [button setImage:[UIImage imageNamed:@"back_btn.png"] forState:UIControlStateNormal];

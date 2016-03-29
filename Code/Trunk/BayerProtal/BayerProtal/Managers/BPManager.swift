@@ -11,7 +11,10 @@ import UIKit
 class BPManager: NSObject {
 
     class func requestURL(method: String) -> String {
-        let serverURL = "http://BSGSGPS0297.AP.BAYER.CNB:8080/BayAssistant/"
+        // 正式服务器
+//        let serverURL = "http://BSGSGPS0297.AP.BAYER.CNB:8080/BayAssistant/"
+        // 测试服务器
+        let serverURL = "http://bsgsgps0361.ap.bayer.cnb:9080/bayerportal/"
         
         return serverURL + method
     }
