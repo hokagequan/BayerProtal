@@ -52,7 +52,6 @@
     
     [self CreateNavgationView];
     
-    [self messageLoadData];
     [self createTableView];
     [self createAphaView];
 
@@ -69,6 +68,8 @@
         [self messageViewOfShu];
         
     }
+    
+    [self messageLoadData];
     [UItool refershMessageWithTime];
     [messageListTableView reloadData];
 
@@ -126,14 +127,22 @@
 //    [messageListTableView reloadData];
     
     // QCW fix
+    [self refreshMessagesUI];
+    
     [[MessageManager defaultManager] synthronizeMessages:^{
-        NSManagedObjectContext *context = [CoreDataManager defalutManager].managedObjectContext;
-        messageList = [[MessageManager defaultManager] getMessages:context];
-        tempArra = [NSMutableArray arrayWithArray:messageList];
-        
-        [[MessageManager defaultManager] readAllMessage];
-        [messageListTableView reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self refreshMessagesUI];
+        });
     }];
+}
+
+- (void)refreshMessagesUI {
+    NSManagedObjectContext *context = [CoreDataManager defalutManager].managedObjectContext;
+    messageList = [[MessageManager defaultManager] getMessages:context];
+    tempArra = [NSMutableArray arrayWithArray:messageList];
+    
+    [[MessageManager defaultManager] readAllMessage];
+    [messageListTableView reloadData];
 }
 
 -(void)changeLanguage:(NSNotification *)noti

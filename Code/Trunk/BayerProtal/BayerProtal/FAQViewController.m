@@ -385,6 +385,10 @@
         cell.backgroundColor = RGBCOLOR(238, 238, 238);
     }
     
+    CGRect frame = cell.frame;
+    frame.size.width = tableView.bounds.size.width;
+    cell.frame = frame;
+    
     cell.webView.delegate = self;
     JEFAQContentModel *model = tempArray[indexPath.section];
     model.indexPath = indexPath;
@@ -413,7 +417,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     int h = webView.scrollView.contentSize.height;
-    webView.frame = ccr(0, 0, self.view.frame.size.width, h);
+    webView.frame = ccr(0, 0, self.faqTableView.bounds.size.width, h);
     JEFAQTableViewCell *cell =  (JEFAQTableViewCell *)webView.superview.superview.superview;
     if (isIOS8) {
         cell = (JEFAQTableViewCell *)webView.superview.superview;

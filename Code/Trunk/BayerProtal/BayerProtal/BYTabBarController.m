@@ -244,6 +244,7 @@
 //    }
     
     // QCW fix
+    NSLog(@"设置消息数量");
     [messageButton setBadgeValueView:[NSString stringWithFormat:@"%@", @([MessageManager defaultManager].unReadCount)]];
 }
 
@@ -286,9 +287,11 @@
             i++;
         }
     }
-    if ([arr count]!=0) {
-        [messageButton setBadgeValueView:[NSString stringWithFormat:@"%d",i]];
-    }
+    
+    // qcw fix
+//    if ([arr count]!=0) {
+//        [messageButton setBadgeValueView:[NSString stringWithFormat:@"%d",i]];
+//    }
     
     
 
@@ -327,10 +330,10 @@
             i++;
         }
     }
-    
-    if ([arr count]!=0) {
-        [messageButton setBadgeValueView:[NSString stringWithFormat:@"%d",i]];
-    }
+        // qcw fix
+//    if ([arr count]!=0) {
+//        [messageButton setBadgeValueView:[NSString stringWithFormat:@"%d",i]];
+//    }
 }
 
 

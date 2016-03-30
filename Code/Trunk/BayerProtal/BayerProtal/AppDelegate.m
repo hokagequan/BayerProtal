@@ -54,7 +54,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     self.window.backgroundColor = [UIColor whiteColor];
@@ -64,6 +63,8 @@
         [application setStatusBarStyle:UIStatusBarStyleLightContent];
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    
+    [BPManager redirectNSlogToDocumentFolder];
     
     
     if (![[ [NSUserDefaults standardUserDefaults] objectForKey:@"userGroup"]isEqual:@"BCS"]&&![[ [NSUserDefaults standardUserDefaults] objectForKey:@"userGroup"]isEqual:@"BHC"]) {
@@ -179,6 +180,12 @@
         if ([[UIApplication sharedApplication] enabledRemoteNotificationTypes] == UIRemoteNotificationTypeNone) {
         }
     }
+//    
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *path = paths.firstObject;
+    
+    [[MessageManager defaultManager] setTheLastSyncDate];
+    
     
     return YES;
 }
@@ -376,6 +383,7 @@
     
     if (application.applicationState == UIApplicationStateActive) {
 //        [IpaRequestManger insertMessage];
+        [[MessageManager defaultManager] insertNewMessage:userInfo];
         [[MessageManager defaultManager] synthronizeMessages:nil];
         if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"isVoiceOn"]isEqualToString:@"on"]) {
             AudioServicesPlaySystemSound(1152);

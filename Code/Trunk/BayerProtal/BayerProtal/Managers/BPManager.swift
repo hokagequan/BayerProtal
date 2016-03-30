@@ -14,7 +14,7 @@ class BPManager: NSObject {
         // 正式服务器
 //        let serverURL = "http://BSGSGPS0297.AP.BAYER.CNB:8080/BayAssistant/"
         // 测试服务器
-        let serverURL = "http://bsgsgps0361.ap.bayer.cnb:9080/bayerportal/"
+        let serverURL = "http://bsgsgps0361.ap.bayer.cnb/bayerportal/"
         
         return serverURL + method
     }
@@ -24,6 +24,20 @@ class BPManager: NSObject {
         format.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
         return format.stringFromDate(date)
+    }
+    
+    class func redirectNSlogToDocumentFolder() {
+        let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+        let path = paths.first
+        let logPath = path?.stringByAppendingString("/bp.log")
+        
+        do {
+            try NSFileManager.defaultManager().removeItemAtPath(logPath!)
+        }
+        catch {}
+        
+        freopen(logPath!, "a+", stdout)
+        freopen(logPath!, "a+", stderr)
     }
     
 }

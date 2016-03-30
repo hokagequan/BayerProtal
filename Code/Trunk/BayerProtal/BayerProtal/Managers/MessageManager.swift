@@ -47,6 +47,33 @@ class MessageManager: NSObject {
         }
     }
     
+    func insertNewMessage(userInfo: NSDictionary) {
+        NSLog("************开始插入一条消息记录")
+        let context = CoreDataManager.defalutManager().childContext()
+        context.performBlock { () -> Void in
+            let message = MessageEntity.entity(userInfo["send_message_id"] as? String, context: context)
+            message.identifier = userInfo["send_message_id"] as? String
+            let aps = userInfo["aps"] as! NSDictionary
+            let alert = aps["alert"] as! String
+            let array = alert.componentsSeparatedByString("/")
+            message.content = array.count > 1 ? array.last : array.first
+            
+            do {
+                try context.save()
+                CoreDataManager.defalutManager().saveContext({
+                    // FIXME: Alert Test
+                    dispatch_async(dispatch_get_main_queue(), {
+                        let alertView = UIAlertView(title: "插入数据", message: message.content, delegate: nil, cancelButtonTitle: "确定")
+                        alertView.show()
+                    })
+                    
+                    NSLog("************结束插入一条消息记录")
+                })
+            }
+            catch {}
+        }
+    }
+    
     func readAllMessage() {
         let context = CoreDataManager.defalutManager().childContext()
         context.performBlock { () -> Void in
@@ -66,6 +93,7 @@ class MessageManager: NSObject {
     }
     
     func readMessage(context: NSManagedObjectContext, messageId: String, completion:(() -> Void)?) {
+        NSLog("************开始标记一条消息记录已读状态")
         let fetchReq = NSFetchRequest(entityName: "MessageEntity")
         fetchReq.predicate = NSPredicate(format: "identifier == %@", messageId)
         
@@ -83,13 +111,16 @@ class MessageManager: NSObject {
                     do {
                         try context.save()
                         CoreDataManager.defalutManager().saveContext({ () -> Void in
+                            NSLog("************结束标记一条消息记录已读状态")
                             completion?()
                         })
                     }
                     catch {}
                 })
                 
-                manager.POST(BPManager.requestURL("Bayer_portal/mobile/mMessageRead.action"), parameters: ["deviceID": "", "send_message_id": message.identifier!, "send_message_content": message.content!, "open_message_time": date], success: { (operation, response) -> Void in
+                NSLog("************开始调用接口标记一条消息记录已读状态")
+                manager.POST(BPManager.requestURL("mobile/mMessagesRead.action"), parameters: ["deviceID": "", "send_message_id": message.identifier!, "send_message_content": message.content!, "open_message_time": date], success: { (operation, response) -> Void in
+                    NSLog("************结束调用接口标记一条消息记录已读状态")
                     completion?()
                     }, failure: { (operation, error) -> Void in
                         completion?()
@@ -105,13 +136,32 @@ class MessageManager: NSObject {
     }
     
     func synthronizeMessages(completion: (() -> Void)?) {
+        
         let manager = AFHTTPRequestOperationManager()
-        let date = lastSyncDate ?? ""
-        manager.GET(BPManager.requestURL("Bayer_portal/mobile/muser!MessageList.action"), parameters: ["updatetime": date], success: { (operation, response) -> Void in
+        let date = lastSyncDate ?? BPManager.stringDate(NSDate())
+        NSLog("************开始同步消息记录， 方法：\(BPManager.requestURL("mobile/mMessagesGet.action"))   时间: \(date)")
+        manager.GET(BPManager.requestURL("mobile/mMessagesGet.action"), parameters: ["updatetime": date], success: { (operation, response) -> Void in
+            // FIXME: Alert Test
+            let responseString: String? = ""
+            dispatch_async(dispatch_get_main_queue(), { 
+                let alertView = UIAlertView(title: "接口成功", message: responseString, delegate: nil, cancelButtonTitle: "确定")
+                alertView.show()
+            })
+            
+            if response == nil {
+                NSLog("************结束同步消息记录， response ＝ nil")
+                completion?()
+                
+                return
+            }
+            
             guard let messages = response["SendMessageLog"] as? Array<Dictionary<String, AnyObject>> else {
+                NSLog("************结束同步消息记录， response[SendMessageLog] ＝ nil")
                 completion?()
                 return
             }
+            
+            NSLog("************结束同步消息记录 返回数据：\(response)")
             
             self.lastSyncDate = BPManager.stringDate(NSDate())
             
@@ -147,7 +197,17 @@ class MessageManager: NSObject {
             })
             
             }) { (operation, error) -> Void in
-                
+                NSLog("************结束同步消息记录 返回错误数据：\(error.userInfo)")
+                dispatch_async(dispatch_get_main_queue(), {
+                    let alertView = UIAlertView(title: "接口失败", message: "\(error.code)", delegate: nil, cancelButtonTitle: "确定")
+                    alertView.show()
+                })
+        }
+    }
+    
+    func setTheLastSyncDate() {
+        if lastSyncDate == nil {
+            lastSyncDate = BPManager.stringDate(NSDate())
         }
     }
     

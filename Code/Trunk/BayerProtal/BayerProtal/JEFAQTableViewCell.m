@@ -47,7 +47,7 @@
         NSString *strData = (NSString *)data;
 //        NSString *HTMLData=[NSString stringWithFormat:@"<div id='foo' style='color:#EEEEEE' >%@</div>",strData];
          [self.webView loadHTMLString:strData baseURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]bundlePath]]];
-        self.webView.frame = ccr(0, 0, SCREEN_WIDTH, 100);
+        self.webView.frame = ccr(0, 0, self.bounds.size.width, 100);
         //[self.webView removeAllHighlights];
 //       NSInteger inty= [self.webView highlightAllOccurencesOfString:@"出国"];
        // NSLog(<#fmt, ...#>)

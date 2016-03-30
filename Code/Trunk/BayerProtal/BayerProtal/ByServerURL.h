@@ -19,7 +19,7 @@
 #define SERVER_PORT         @"8098"
 #define SERVER_DOMAIN       @"BayAssistant"
 //#define SERVER_URL          @"http://BSGSGPS0297.AP.BAYER.CNB:8080/BayAssistant/"
-#define SERVER_URL          @"http://bsgsgps0361.ap.bayer.cnb:9080/bayerportal/"
+#define SERVER_URL          @"http://bsgsgps0361.ap.bayer.cnb/bayerportal/"
 //BSGSGPS0297.AP.BAYER.CNB:8080 新服务器位置
 //bsgsgps0361.ap.bayer.cnb/bayerportal 测试服务器位置
 //bsgsgps0377.ap.bayer.cnb/bayerportal:8098 老的正式服务器位置
