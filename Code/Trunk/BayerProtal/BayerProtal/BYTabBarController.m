@@ -55,6 +55,7 @@
     [super viewDidLoad];
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notificationAction:) name:@"nstificationGo" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentHeGui) name:@"NotificationPresentHeGui" object:nil];
 
    //定时刷新
    [NSTimer scheduledTimerWithTimeInterval:3600 target:self selector:@selector(TabrefershMessageWithTime) userInfo:nil repeats:YES];
@@ -63,6 +64,7 @@
   [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(tabRefershMessage:) name:@"refershMessage" object:nil];
   [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(tabRefershMessage:) name:@"refreshAll" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeLanguageOfTabbar:) name:@"changeLanguage" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeNotifyMark:) name:@"changeNotifyMark" object:nil];
     
     [self.tabBar removeFromSuperview];
     // CGRect rect = ccr(0, Nav_HEIGHT+10, TabBar_WIDTH, SCREEN_WIDTH-Nav_HEIGHT);
@@ -127,24 +129,24 @@
 
 -(void)TabrefershMessageWithTime
 {
-    NSLog(@"定时器刷新1");
-    [UItool saveCurrentTime];
-    NSMutableDictionary * parms = [[NSMutableDictionary alloc] init];
-    NSString * str = [[NSUserDefaults standardUserDefaults] objectForKey:@"userGroup"];
-    //[parms setObject:str forKey:@"userGroup"];
-    [parms setObject:str forKey:@"userGroup"];
-    [parms setObject:[LocalSqlManger selectMessageMaxId] forKey:@"messageId"];
-//    [UIAlertView showMessage:String(@"2 max id :%@",[LocalSqlManger selectMessageMaxId])];
-
-    //获取消息列表
-    [RequestClient POST:[ByServerURL getInformationUrl] parameters:parms success:^(NSDictionary *dict) {
-        NSArray *informationArr = [[dict objectForKey:@"body"] objectForKey:@"messageList"];
-        [LocalSqlManger saveTheInformationToTable:informationArr];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"refershMessage" object:nil];
-        
-    } failure:^(NSError *error) {
-        
-    }];
+//    NSLog(@"定时器刷新1");
+//    [UItool saveCurrentTime];
+//    NSMutableDictionary * parms = [[NSMutableDictionary alloc] init];
+//    NSString * str = [[NSUserDefaults standardUserDefaults] objectForKey:@"userGroup"];
+//    //[parms setObject:str forKey:@"userGroup"];
+//    [parms setObject:str forKey:@"userGroup"];
+//    [parms setObject:[LocalSqlManger selectMessageMaxId] forKey:@"messageId"];
+////    [UIAlertView showMessage:String(@"2 max id :%@",[LocalSqlManger selectMessageMaxId])];
+//
+//    //获取消息列表
+//    [RequestClient POST:[ByServerURL getInformationUrl] parameters:parms success:^(NSDictionary *dict) {
+//        NSArray *informationArr = [[dict objectForKey:@"body"] objectForKey:@"messageList"];
+//        [LocalSqlManger saveTheInformationToTable:informationArr];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"refershMessage" object:nil];
+//        
+//    } failure:^(NSError *error) {
+//        
+//    }];
 }
 
 
@@ -243,11 +245,11 @@
 //        }
 //    }
     
-    // QCW fix
-    NSLog(@"设置消息数量");
-    [messageButton setBadgeValueView:[NSString stringWithFormat:@"%@", @([MessageManager defaultManager].unReadCount)]];
 }
 
+- (void)changeNotifyMark:(NSNotification *)noti {
+    [messageButton setBadgeValueView:[NSString stringWithFormat:@"%@", @([MessageManager defaultManager].unReadCount)]];
+}
 
 -(void)henOfTabar
 {
@@ -655,6 +657,12 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)presentHeGui {
+    UIViewController *vc = [[HeGuiViewController alloc] initWithNibName:@"HeGuiViewController" bundle:nil];
+//    UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self.selectedViewController presentViewController:vc animated:YES completion:nil];
 }
 
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<changelog xmlns="http://www.omnigroup.com/namespace/OmniPlan/v2">
+  <version>2.1</version>
+  <task-change-set user="Matt Quan" date="2016-05-03T01:05:04.260Z" timestamp="2016-05-03T01:05:04.260Z">
+    <change idref="t2" to="t-1" to-position="1" resolved="yes">
+      <change idref="t2" attribute="effort" type="real" from="28800" to="43200"/>
+      <change idref="t2" attribute="noEarlierThanConstraintDate" type="date" to="2016-05-03T05:00:00.000Z"/>
+      <change idref="t2" attribute="title" type="string" to="同步系统时间"/>
+    </change>
+    <change idref="t3" to="t-1" to-position="2" resolved="yes">
+      <change idref="t3" attribute="effort" type="real" from="28800" to="14400"/>
+      <change idref="t3" attribute="noEarlierThanConstraintDate" type="date" to="2016-05-05T00:00:00.000Z"/>
+      <change idref="t3" attribute="title" type="string" to="同步机制修改"/>
+    </change>
+    <change idref="t4" to="t-1" to-position="3" resolved="yes">
+      <change idref="t4" attribute="effort" type="real" from="28800" to="57600"/>
+      <change idref="t4" attribute="noEarlierThanConstraintDate" type="date" to="2016-05-05T05:00:00.000Z"/>
+      <change idref="t4" attribute="title" type="string" to="会议列表界面修改"/>
+    </change>
+    <change idref="t5" to="t-1" to-position="4" resolved="yes">
+      <change idref="t5" attribute="noEarlierThanConstraintDate" type="date" to="2016-05-09T05:00:00.000Z"/>
+      <change idref="t5" attribute="title" type="string" to="照片名称"/>
+    </change>
+    <change idref="t1" attribute="title" type="string" from="任务 1" to="永久保存CWID" resolved="yes"/>
+    <change idref="t1" attribute="effort" type="real" from="28800" to="14400" resolved="yes"/>
+  </task-change-set>
+  <metadata-change-set user="Matt Quan" date="2016-05-03T01:05:04.259Z" timestamp="2016-05-03T01:05:04.259Z">
+    <change idref="m1" attribute="fixedDate" type="date" from="2007-01-01T20:00:00.000Z" to="2016-05-03T00:00:00.000Z" resolved="yes"/>
+  </metadata-change-set>
+</changelog>

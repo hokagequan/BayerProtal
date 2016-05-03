@@ -60,4 +60,9 @@ static NSString *g_MuserGroup = @"mobile/muserGroupList.action";
     }
 
 }
+
++ (NSString *)convertServerURL {
+    return [NSString stringWithFormat:@"http://%@/", LocalHost];
+}
+
 @end

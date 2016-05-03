@@ -28,10 +28,16 @@ class MessageEntity: NSManagedObject {
                 return fetchObjects.first as! MessageEntity
             }
             
-            return NSEntityDescription.insertNewObjectForEntityForName("MessageEntity", inManagedObjectContext: context) as! MessageEntity
+            let entity = NSEntityDescription.insertNewObjectForEntityForName("MessageEntity", inManagedObjectContext: context) as! MessageEntity
+            entity.isRead = NSNumber(bool: false)
+            
+            return entity
         }
         catch {
-            return NSEntityDescription.insertNewObjectForEntityForName("MessageEntity", inManagedObjectContext: context) as! MessageEntity
+            let entity = NSEntityDescription.insertNewObjectForEntityForName("MessageEntity", inManagedObjectContext: context) as! MessageEntity
+            entity.isRead = NSNumber(bool: false)
+            
+            return entity
         }
     }
 

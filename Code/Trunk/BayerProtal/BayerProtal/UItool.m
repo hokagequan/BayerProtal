@@ -325,6 +325,7 @@ static UIImageView *imageView_ = nil;
 {
 	NSDictionary *dic = [[NSBundle mainBundle] infoDictionary];
 	NSString *version = [dic objectForKey:@"CFBundleShortVersionString"];
+//    NSString *version = [dic objectForKey:@"CFBundleVersion"];
 	
 	return version;
 }
@@ -377,26 +378,26 @@ static BOOL __isRefersh = NO;
 
 +(void)refershMessageWithTime
 {
-    if (__isRefersh) {
-        return;
-    }
-    __isRefersh = YES;
-    NSLog(@"刷新");
-    NSMutableDictionary * parms = [[NSMutableDictionary alloc] init];
-    NSString * str = [[NSUserDefaults standardUserDefaults] objectForKey:@"userGroup"];
-    //[parms setObject:str forKey:@"userGroup"];
-    [parms setObject:str forKey:@"userGroup"];
-    [parms setObject:[LocalSqlManger selectMessageMaxId] forKey:@"messageId"];
-//    [UIAlertView showMessage:String(@"5 max id :%@",[LocalSqlManger selectMessageMaxId])];
-    //获取消息列表
-    [RequestClient POST:[ByServerURL getInformationUrl] parameters:parms success:^(NSDictionary *dict) {
-        NSArray *informationArr = [[dict objectForKey:@"body"] objectForKey:@"messageList"];
-        [LocalSqlManger saveTheInformationToTable:informationArr];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"refershMessage" object:nil];
-        __isRefersh = NO;
-    } failure:^(NSError *error) {
-        __isRefersh = NO;
-    }];
+//    if (__isRefersh) {
+//        return;
+//    }
+//    __isRefersh = YES;
+//    NSLog(@"刷新");
+//    NSMutableDictionary * parms = [[NSMutableDictionary alloc] init];
+//    NSString * str = [[NSUserDefaults standardUserDefaults] objectForKey:@"userGroup"];
+//    //[parms setObject:str forKey:@"userGroup"];
+//    [parms setObject:str forKey:@"userGroup"];
+//    [parms setObject:[LocalSqlManger selectMessageMaxId] forKey:@"messageId"];
+////    [UIAlertView showMessage:String(@"5 max id :%@",[LocalSqlManger selectMessageMaxId])];
+//    //获取消息列表
+//    [RequestClient POST:[ByServerURL getInformationUrl] parameters:parms success:^(NSDictionary *dict) {
+//        NSArray *informationArr = [[dict objectForKey:@"body"] objectForKey:@"messageList"];
+//        [LocalSqlManger saveTheInformationToTable:informationArr];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"refershMessage" object:nil];
+//        __isRefersh = NO;
+//    } failure:^(NSError *error) {
+//        __isRefersh = NO;
+//    }];
 }
 
 

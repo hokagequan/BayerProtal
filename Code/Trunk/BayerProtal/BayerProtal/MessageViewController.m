@@ -70,7 +70,7 @@
     }
     
     [self messageLoadData];
-    [UItool refershMessageWithTime];
+//    [UItool refershMessageWithTime];
     [messageListTableView reloadData];
 
 }
@@ -140,8 +140,14 @@
     NSManagedObjectContext *context = [CoreDataManager defalutManager].managedObjectContext;
     messageList = [[MessageManager defaultManager] getMessages:context];
     tempArra = [NSMutableArray arrayWithArray:messageList];
+    [tempArra sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        MessageEntity *message1 = (MessageEntity *)obj1;
+        MessageEntity *message2 = (MessageEntity *)obj2;
+        
+        return message1.identifier.integerValue < message2.identifier.integerValue;
+    }];
     
-    [[MessageManager defaultManager] readAllMessage];
+//    [[MessageManager defaultManager] readAllMessage];
     [messageListTableView reloadData];
 }
 
@@ -276,6 +282,8 @@
     messageListTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     messageListTableView.dataSource = self;
     messageListTableView.delegate = self;
+    messageListTableView.layoutMargins = UIEdgeInsetsZero;
+    messageListTableView.separatorStyle = UITableViewCellSelectionStyleNone;
     [self.view addSubview:messageListTableView];
 }
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -380,6 +388,9 @@
         messageCell.timeLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
     }
     
+    messageCell.layoutMargins = UIEdgeInsetsZero;
+    messageCell.border.frame = ccr(0, 119, tableView.bounds.size.width, 1);
+    
     return messageCell;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPat{
@@ -395,16 +406,21 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MessageEntity *message = tempArra[indexPath.row];
-    NSManagedObjectContext *context = [[CoreDataManager defalutManager] childContext];
+    
+    CustomAlert *alert = [[CustomAlert alloc] initWithTitle:nil contentText:message.content];
+    alert.tag = 9;
+    [alert show];
+    
+    if ([message.isRead isEqualToNumber:@(YES)]) {
+        return;
+    }
+    
+    NSManagedObjectContext *context = [[CoreDataManager defalutManager] managedObjectContext];
     message.isRead = @(YES);
     [[MessageManager defaultManager] readMessage:context messageId:message.identifier completion:nil]
     ;
     
     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    
-    CustomAlert *alert = [[CustomAlert alloc] initWithTitle:nil contentText:message.content];
-    alert.tag = 9;
-    [alert show];
 }
 
 

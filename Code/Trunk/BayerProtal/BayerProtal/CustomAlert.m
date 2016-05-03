@@ -7,6 +7,8 @@
 //
 
 #import "CustomAlert.h"
+#import "BayerProtal-Swift.h"
+#import "AppDelegate.h"
 
 @implementation CustomAlert
 
@@ -112,8 +114,8 @@
     return self;
 }
 - (void)OpenUrl {
-
-    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"http://sp-coll-bhc.ap.bayer.cnb/sites/250003/compliance/SitePages/OrgChart.aspx"]];
+//    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"http://bsgsgps0297.ap.bayer.cnb:8080/BayAssistant/hegui/index.html"]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NotificationPresentHeGui" object:nil];
 }
 - (void)show
 {

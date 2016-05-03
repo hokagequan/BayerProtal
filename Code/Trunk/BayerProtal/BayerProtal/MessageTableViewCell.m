@@ -27,16 +27,20 @@
         detailButton.layer.cornerRadius = 2;
         detailButton.layer.masksToBounds = YES;
         detailButton.backgroundColor = [UIColor colorWithRed:0/255.0 green:145/255.0 blue:195/255.0 alpha:1.0];
+        self.border = [[UIView alloc] initWithFrame:CGRectZero];
+        self.border.backgroundColor = [UIColor lightGrayColor];
         [self.contentView addSubview:detailButton];
         [detailButton addTarget:self action:@selector(OpenUrl) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:desLabel];
         [self addSubview:timeLabel];
+        [self.contentView addSubview:self.border];
     }
     return self;
 }
 - (void)OpenUrl {
     
-    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"http://sp-coll-bhc.ap.bayer.cnb/sites/250003/compliance/SitePages/OrgChart.aspx"]];
+//    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"http://bsgsgps0297.ap.bayer.cnb:8080/BayAssistant/hegui/index.html"]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NotificationPresentHeGui" object:nil];
 }
 -(void)initWithDescrption:(BYinformation *)info;
 {
@@ -52,6 +56,7 @@
     CGSize size = [desLabel.text boundingRectWithSize:CGSizeMake(2*VIEW_WIDTH_HEN/3-50, 100) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
     desLabel.frame = ccr(50, 30, 2*VIEW_WIDTH_HEN/3-40, size.height+10);
     timeLabel.frame = ccr(self.frame.size.width-240, 35, 200, 50);
+    self.border.frame = ccr(0, self.bounds.size.height - 1, self.bounds.size.width, 1);
 
     if (info.isRead==[NSNumber numberWithInt:1]) {//Helvetica
         [timeLabel setFont:[UIFont fontWithName:@"Helvetica" size:18]];
@@ -102,7 +107,6 @@
 
 - (void)awakeFromNib
 {
-    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

@@ -43,9 +43,9 @@
 #define DEVICEID @"DEVICEID"
 
 #warning LocalHost 端口
+//#define LocalHost @"192.168.1.134:8080/BayAssistant" //本地测试
 #define LocalHost @"bsgsgps0361.ap.bayer.cnb/bayerportal" //测试
-//#define LocalHost @"bsgsgps0377.ap.bayer.cnb:8098/BayAssistant" //原来正式服务器
-//#define LocalHost @"BSGSGPS0297.AP.BAYER.CNB:8080/BayAssistant" //新正式服务器
+//#define LocalHost @"bsgsgps0297.ap.bayer.cnb:8080/BayAssistant" //正式
 
 //导航栏长高度
 //#define SCREEN_WIDTH  [[UIScreen mainScreen]bounds].size.width

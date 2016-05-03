@@ -9,12 +9,17 @@
 import UIKit
 
 class BPManager: NSObject {
+    
+    var deviceID: String = ""
+    
+    static let _sharedBPManager = BPManager()
+    
+    class func defaultManager() -> BPManager {
+        return _sharedBPManager
+    }
 
     class func requestURL(method: String) -> String {
-        // 正式服务器
-//        let serverURL = "http://BSGSGPS0297.AP.BAYER.CNB:8080/BayAssistant/"
-        // 测试服务器
-        let serverURL = "http://bsgsgps0361.ap.bayer.cnb/bayerportal/"
+        let serverURL = ByServerURL.convertServerURL()
         
         return serverURL + method
     }

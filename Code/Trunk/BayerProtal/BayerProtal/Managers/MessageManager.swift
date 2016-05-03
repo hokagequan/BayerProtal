@@ -11,7 +11,21 @@ import CoreData
 
 class MessageManager: NSObject {
     
-    var unReadCount = 0
+    var unReadCount: Int {
+        let context = CoreDataManager.defalutManager().managedObjectContext
+        let fetchReq = NSFetchRequest(entityName: "MessageEntity")
+        fetchReq.predicate = NSPredicate(format: "isRead == %@", NSNumber(bool: false))
+        
+        do {
+            let fetchObjects = try context.executeFetchRequest(fetchReq)
+            
+            return fetchObjects.count
+        }
+        catch {
+            return 0
+        }
+    }
+    
     var lastSyncDate: String? {
         get {
             return NSUserDefaults.standardUserDefaults().stringForKey("BPMessageLastSyncDate")
@@ -31,6 +45,7 @@ class MessageManager: NSObject {
     override init() {
         super.init()
         
+        // FIXME: Test
 //        self.insertMessages()
     }
     
@@ -47,53 +62,59 @@ class MessageManager: NSObject {
         }
     }
     
-    func insertNewMessage(userInfo: NSDictionary) {
-        NSLog("************开始插入一条消息记录")
-        let context = CoreDataManager.defalutManager().childContext()
-        context.performBlock { () -> Void in
-            let message = MessageEntity.entity(userInfo["send_message_id"] as? String, context: context)
-            message.identifier = userInfo["send_message_id"] as? String
-            let aps = userInfo["aps"] as! NSDictionary
-            let alert = aps["alert"] as! String
-            let array = alert.componentsSeparatedByString("/")
-            message.content = array.count > 1 ? array.last : array.first
-            
-            do {
-                try context.save()
+    func insertNewMessage(userInfo: NSDictionary, read: Bool) {
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { 
+            let context = CoreDataManager.defalutManager().managedObjectContext
+            context.performBlock { () -> Void in
+                let messageID = "\(userInfo["id"]!)"
+                let message = MessageEntity.entity(messageID, context: context)
+                message.identifier = messageID
+                let aps = userInfo["aps"] as! NSDictionary
+                let alert = aps["alert"] as! String
+//                let array = alert.componentsSeparatedByString("/")
+                message.content = alert
+                message.isRead = NSNumber(bool: read)
+                message.date = BPManager.stringDate(NSDate())
+                
                 CoreDataManager.defalutManager().saveContext({
-                    // FIXME: Alert Test
-                    dispatch_async(dispatch_get_main_queue(), {
-                        let alertView = UIAlertView(title: "插入数据", message: message.content, delegate: nil, cancelButtonTitle: "确定")
-                        alertView.show()
-                    })
-                    
-                    NSLog("************结束插入一条消息记录")
+                    if read == true {
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.readMessage(context, messageId: messageID, completion: nil)
+                        })
+                    }
                 })
             }
-            catch {}
-        }
+//        }
     }
-    
+
     func readAllMessage() {
-        let context = CoreDataManager.defalutManager().childContext()
+        let context = CoreDataManager.defalutManager().managedObjectContext
         context.performBlock { () -> Void in
             let messages = self.getMessages(context)
             for message in messages {
                 message.isRead = NSNumber(bool: true)
             }
             
-            do {
-                try context.save()
-                CoreDataManager.defalutManager().saveContext({ () -> Void in
-                    self.unReadCount = 0
+            CoreDataManager.defalutManager().saveContext({ () -> Void in
+                dispatch_async(dispatch_get_main_queue(), {
+                    NSNotificationCenter.defaultCenter().postNotificationName("changeNotifyMark", object: nil)
                 })
-            }
-            catch {}
+            })
         }
     }
     
     func readMessage(context: NSManagedObjectContext, messageId: String, completion:(() -> Void)?) {
-        NSLog("************开始标记一条消息记录已读状态")
+        let storedMessage = MessageEntity.entity(messageId, context: CoreDataManager.defalutManager().managedObjectContext)
+        let date = BPManager.stringDate(NSDate())
+        
+        if storedMessage.identifier != nil {
+            RequestClient.POST(BPManager.requestURL("mobile/mMessagerRead.action"), parameters: ["deviceID": BPManager.defaultManager().deviceID, "send_message_id": storedMessage.identifier!, "send_message_content": storedMessage.content!, "open_message_time": date], success: { (response) in
+                completion?()
+                }, failure: { (error) in
+                    completion?()
+            })
+        }
+        
         let fetchReq = NSFetchRequest(entityName: "MessageEntity")
         fetchReq.predicate = NSPredicate(format: "identifier == %@", messageId)
         
@@ -102,29 +123,25 @@ class MessageManager: NSObject {
             
             if fetchObjects.count > 0 {
                 let message = fetchObjects.first as! MessageEntity
-                let manager = AFHTTPRequestOperationManager()
-                let date = BPManager.stringDate(NSDate())
                 
                 context.performBlock({ () -> Void in
                     message.isRead = NSNumber(bool: true)
-                    
-                    do {
-                        try context.save()
-                        CoreDataManager.defalutManager().saveContext({ () -> Void in
-                            NSLog("************结束标记一条消息记录已读状态")
-                            completion?()
+                    CoreDataManager.defalutManager().saveContext({ () -> Void in
+                        completion?()
+                        dispatch_async(dispatch_get_main_queue(), {
+                            NSNotificationCenter.defaultCenter().postNotificationName("changeNotifyMark", object: nil)
                         })
-                    }
-                    catch {}
+                    })
                 })
                 
-                NSLog("************开始调用接口标记一条消息记录已读状态")
-                manager.POST(BPManager.requestURL("mobile/mMessagesRead.action"), parameters: ["deviceID": "", "send_message_id": message.identifier!, "send_message_content": message.content!, "open_message_time": date], success: { (operation, response) -> Void in
-                    NSLog("************结束调用接口标记一条消息记录已读状态")
-                    completion?()
-                    }, failure: { (operation, error) -> Void in
-                        completion?()
-                })
+//                let urlString = "\(BPManager.requestURL("mobile/mMessagesRead.action?"))deviceID=\(BPManager.defaultManager().deviceID)&send_message_id=\(message.identifier!)&send_message_content=\(message.content!)&open_message_time=\(date)"
+//                let encode = urlString.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+//                manager.GET(encode, parameters: nil, success: { (operation, response) in
+//                    completion?()
+//                    }, failure: { (operation, error) in
+//                        completion?()
+//                })
+//
             }
             else {
                 completion?()
@@ -136,28 +153,24 @@ class MessageManager: NSObject {
     }
     
     func synthronizeMessages(completion: (() -> Void)?) {
-        
-        let manager = AFHTTPRequestOperationManager()
         let date = lastSyncDate ?? BPManager.stringDate(NSDate())
-        NSLog("************开始同步消息记录， 方法：\(BPManager.requestURL("mobile/mMessagesGet.action"))   时间: \(date)")
-        manager.GET(BPManager.requestURL("mobile/mMessagesGet.action"), parameters: ["updatetime": date], success: { (operation, response) -> Void in
-            // FIXME: Alert Test
-            let responseString: String? = ""
-            dispatch_async(dispatch_get_main_queue(), { 
-                let alertView = UIAlertView(title: "接口成功", message: responseString, delegate: nil, cancelButtonTitle: "确定")
-                alertView.show()
-            })
+        
+        RequestClient.POST(BPManager.requestURL("mobile/mMessagerlistNew.action"), parameters: ["updatetime": date], success: { (response) in
             
             if response == nil {
-                NSLog("************结束同步消息记录， response ＝ nil")
                 completion?()
                 
                 return
             }
             
-            guard let messages = response["SendMessageLog"] as? Array<Dictionary<String, AnyObject>> else {
-                NSLog("************结束同步消息记录， response[SendMessageLog] ＝ nil")
+            guard let messageList = response["body"] as? Dictionary<String, AnyObject> else {
                 completion?()
+                return
+            }
+            
+            guard let messages = messageList["messageList"] as? Array<Dictionary<String, AnyObject>> else {
+                completion?()
+                
                 return
             }
             
@@ -165,43 +178,25 @@ class MessageManager: NSObject {
             
             self.lastSyncDate = BPManager.stringDate(NSDate())
             
-            let context = CoreDataManager.defalutManager().childContext()
+            let context = CoreDataManager.defalutManager().managedObjectContext
             context.performBlock({ () -> Void in
                 for info in messages {
-                    let message = MessageEntity.entity(info["send_message_id"] as? String, context: context)
-                    message.identifier = info["send_message_id"] as? String
+                    let messageID = "\(info["send_message_id"]!)"
+                    let message = MessageEntity.entity(messageID, context: context)
+                    message.identifier = messageID
                     message.content = info["send_message_content"] as? String
                     message.date = info["send_message_time"] as? String
                 }
                 
-                do {
-                    try context.save()
-                    CoreDataManager.defalutManager().saveContext({ () -> Void in
-                        let fetchReq = NSFetchRequest(entityName: "MessageEntity")
-                        fetchReq.predicate = NSPredicate(format: "isRead == %@", NSNumber(bool: false))
-                        
-                        do {
-                            let fetchObjects = try context.executeFetchRequest(fetchReq)
-                            self.unReadCount = fetchObjects.count
-                        }
-                        catch {
-                        
-                        }
-                        
-                        completion?()
+                CoreDataManager.defalutManager().saveContext({ () -> Void in
+                    dispatch_async(dispatch_get_main_queue(), {
+                        NSNotificationCenter.defaultCenter().postNotificationName("changeNotifyMark", object: nil)
                     })
-                }
-                catch {
+                    
                     completion?()
-                }
-            })
-            
-            }) { (operation, error) -> Void in
-                NSLog("************结束同步消息记录 返回错误数据：\(error.userInfo)")
-                dispatch_async(dispatch_get_main_queue(), {
-                    let alertView = UIAlertView(title: "接口失败", message: "\(error.code)", delegate: nil, cancelButtonTitle: "确定")
-                    alertView.show()
                 })
+            })
+            }) { (error) in
         }
     }
     
@@ -219,7 +214,7 @@ class MessageManager: NSObject {
                 let message = MessageEntity.entity("\(i)", context: context)
                 message.identifier = "\(i)"
                 message.content = "content\(i)"
-                message.date = "2000"
+                message.date = BPManager.stringDate(NSDate())
             }
             
             do {

@@ -103,6 +103,9 @@
 {
     [super viewDidLoad];
     
+    // FIXME: Test
+//    return;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeTheLuange:) name:@"changeLanguage" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(BYviewRefreshAll:) name:@"refreshAll" object:nil];
    

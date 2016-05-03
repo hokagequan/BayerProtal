@@ -1,0 +1,73 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iOS SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import"CoreData+MagicalRecord.h"
+    #import"UItool.h"
+    #import "SDWebImage/UIImageView+WebCache.h"
+    #import"ByServerURL.h"
+    #import "AppDelegate.h"
+    #import"RequestClient.h"
+    #import "LocalSqlManger.h"
+    #import <UtilityKit/UtilityKit.h>
+    #import "JEUtits.h"
+    #import"UIButton+WebCache.h"
+    #import"BYloadView.h"
+    #import"JEUtits.h"
+
+#endif
+
+#define Reachability_WIFI @"ReachabilityWIFI"
+
+#define MANAGED [(AppDelegate *)[[UIApplication sharedApplication] delegate].appDefaults
+
+#define ccp(__X__,__Y__) CGPointMake(__X__, __Y__)
+#define ccs(__W__,__H__) CGSizeMake(__W__, __H__)
+#define ccr(__X__,__Y__,__W__,__H__) CGRectMake(__X__,__Y__,__W__,__H__)
+
+#define IOS_67 (([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0f)?20:0)
+
+#define USERDEFSULT [NSUserDefaults standardUserDefaults]
+
+#define DEVICEID @"DEVICEID"
+
+#warning LocalHost 端口
+//#define LocalHost @"bsgsgps0361.ap.bayer.cnb:9080/bayerportal" //测试
+//#define LocalHost @"bsgsgps0377.ap.bayer.cnb:8098/BayAssistant" //原来正式服务器
+#define LocalHost @"BSGSGPS0297.AP.BAYER.CNB:8080/BayAssistant" //新正式服务器
+
+//导航栏长高度
+//#define SCREEN_WIDTH  [[UIScreen mainScreen]bounds].size.width
+//#define SCREEN_HEIGHT  [[UIScreen mainScreen]bounds].size.height
+
+//#define SCREEN_WIDTH  1024
+//#define SCREEN_HEIGHT  568
+
+
+#define Nav_HEIGHT SCREEN_WIDTH*0.08
+#define Nav_WIDTH_SHU SCREEN_WIDTH
+#define Nav_WIDTH_HEN SCREEN_HEIGHT
+//自定义Tabbar  ccr(0, 116, 150, 653);
+#define TabBar_WIDTH SCREEN_WIDTH*0.10
+#define TabBar_HEIGHT SCREEN_WIDTH*0.88
+//显示区域的坐标位置
+#define VIEW_X SCREEN_WIDTH*0.12
+#define VIEW_Y Nav_HEIGHT
+#define VIEW_WIDTH_SHU SCREEN_WIDTH*0.88
+#define VIEW_WIDTH_HEN SCREEN_HEIGHT*0.8
+#define VIEW_HEIGHT_SHU SCREEN_HEIGHT*0.8
+#define VIEW_HEIGHT_HEN SCREEN_WIDTH*0.88
+
+#define fontNum 25.f;
+

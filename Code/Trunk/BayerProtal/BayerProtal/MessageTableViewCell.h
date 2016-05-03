@@ -13,6 +13,7 @@
 @property (nonatomic,strong) UILabel *desLabel;
 @property (nonatomic,strong) UILabel *timeLabel;
 @property (nonatomic,strong) UIButton *detailButton;
+@property (nonatomic,strong) UIView *border;
 
 -(void)initWithDescrption:(BYinformation *)info;
 -(void)initWithDescrptions:(NSString *)info;

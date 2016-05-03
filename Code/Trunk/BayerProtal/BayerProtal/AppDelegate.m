@@ -63,9 +63,7 @@
         [application setStatusBarStyle:UIStatusBarStyleLightContent];
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    
-    [BPManager redirectNSlogToDocumentFolder];
-    
+
     
     if (![[ [NSUserDefaults standardUserDefaults] objectForKey:@"userGroup"]isEqual:@"BCS"]&&![[ [NSUserDefaults standardUserDefaults] objectForKey:@"userGroup"]isEqual:@"BHC"]) {
         BYHomeViewController *homeView = [[BYHomeViewController alloc] init];
@@ -117,8 +115,8 @@
             
             NSArray *StringArray = [string componentsSeparatedByString:@"/"]; //从字符A中分隔成2个元素的数组
             
-            NSString *messageID = [remoteNotification objectForKey:@"send_message_id"];
-            NSManagedObjectContext *context = [[CoreDataManager defalutManager] childContext];
+            NSString *messageID = [remoteNotification objectForKey:@"id"];
+            NSManagedObjectContext *context = [[CoreDataManager defalutManager] managedObjectContext];
             [[MessageManager defaultManager] readMessage:context messageId:messageID completion:nil];
             if (StringArray.count==2) {
                 CustomAlert *alert = [[CustomAlert alloc] initWithTitle:StringArray[0] contentText:StringArray[1]];
@@ -167,8 +165,9 @@
 //    [alert show];
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8) {
-        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIRemoteNotificationTypeBadge
-                                                                                             |UIRemoteNotificationTypeSound
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(
+                                                                                             UIRemoteNotificationTypeBadge |
+                                                                                             UIRemoteNotificationTypeSound
                                                                                              |UIRemoteNotificationTypeAlert) categories:nil];
         [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
         [application registerForRemoteNotifications];
@@ -180,9 +179,9 @@
         if ([[UIApplication sharedApplication] enabledRemoteNotificationTypes] == UIRemoteNotificationTypeNone) {
         }
     }
-//    
-//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//    NSString *path = paths.firstObject;
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = paths.firstObject;
     
     [[MessageManager defaultManager] setTheLastSyncDate];
     
@@ -193,25 +192,25 @@
 
 -(void)refershMessageWithTime
 {
-    NSLog(@"刷新了哦");
-    NSMutableDictionary * parms = [[NSMutableDictionary alloc] init];
-    NSString * str = [[NSUserDefaults standardUserDefaults] objectForKey:@"userGroup"];
-    //[parms setObject:str forKey:@"userGroup"];
-    [parms setObject:str forKey:@"userGroup"];
-    [parms setObject:[LocalSqlManger selectMessageMaxId] forKey:@"messageId"];
-//    [UIAlertView showMessage:String(@"1 max id :%@",[LocalSqlManger selectMessageMaxId])];
-    //获取消息列表
-    [RequestClient POST:[ByServerURL getInformationUrl] parameters:parms success:^(NSDictionary *dict) {
-       // NSLog(@"message===%@",dict);
-        NSArray *informationArr = [[dict objectForKey:@"body"] objectForKey:@"messageList"];
-        [LocalSqlManger saveTheInformationToTable:informationArr];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"refershMessage" object:nil];
-        
-    } failure:^(NSError *error) {
-       // NSLog(@"messageerror:;%@",error);
-        
-        
-    }];
+//    NSLog(@"刷新了哦");
+//    NSMutableDictionary * parms = [[NSMutableDictionary alloc] init];
+//    NSString * str = [[NSUserDefaults standardUserDefaults] objectForKey:@"userGroup"];
+//    //[parms setObject:str forKey:@"userGroup"];
+//    [parms setObject:str forKey:@"userGroup"];
+//    [parms setObject:[LocalSqlManger selectMessageMaxId] forKey:@"messageId"];
+////    [UIAlertView showMessage:String(@"1 max id :%@",[LocalSqlManger selectMessageMaxId])];
+//    //获取消息列表
+//    [RequestClient POST:[ByServerURL getInformationUrl] parameters:parms success:^(NSDictionary *dict) {
+//       // NSLog(@"message===%@",dict);
+//        NSArray *informationArr = [[dict objectForKey:@"body"] objectForKey:@"messageList"];
+//        [LocalSqlManger saveTheInformationToTable:informationArr];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"refershMessage" object:nil];
+//        
+//    } failure:^(NSError *error) {
+//       // NSLog(@"messageerror:;%@",error);
+//        
+//        
+//    }];
 }
 
 -(void)messageNotifation:(id)sender
@@ -308,6 +307,8 @@
     deviceStr = [deviceStr stringByReplacingOccurrencesOfString:@">" withString:@""];
     NSLog(@"deviceStr = %@",deviceStr);
     
+    [BPManager defaultManager].deviceID = deviceStr;
+    
     //判断是否已经提交过deviceID
 //    if (![USERDEFSULT objectForKey:DEVICEID]) {
     if ([[[NSUserDefaults standardUserDefaults] stringForKey:@"userGroup"] isEqualToString:@"BHC"]) {
@@ -315,17 +316,19 @@
 
         manager.requestSerializer.timeoutInterval = 30;
         // 设置返回格式
+        NSLog(@"**************登录开始");
         [manager GET:[NSString stringWithFormat:@"http://%@/mobile/muserlogin.action?deviceID=%@",LocalHost,deviceStr] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             
 //            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:[NSString stringWithFormat:@"http://%@/mobile/muserlogin.action?deviceID=%@",LocalHost,deviceStr] message:@"deviceID" delegate:nil cancelButtonTitle:@"" otherButtonTitles:nil, nil];
 //            [alert show];
-            
+            NSLog(@"************登录成功");
             [USERDEFSULT setObject:deviceStr forKey:DEVICEID];
             [USERDEFSULT synchronize];
                         
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 //            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:[NSString stringWithFormat:@"%d",error.code] message:@"deviceID" delegate:nil cancelButtonTitle:@"" otherButtonTitles:nil, nil];
 //            [alert show];
+            NSLog(@"************登录失败");
         }];
  
    }
@@ -377,14 +380,13 @@
 
     NSLog(@"注册失败，无法获取设备ID, 具体错误: %@", error);
 }
+
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
    // NSString *alertMessage = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
    // [[UIApplication sharedApplication] cancelAllLocalNotifications];
     
     if (application.applicationState == UIApplicationStateActive) {
 //        [IpaRequestManger insertMessage];
-        [[MessageManager defaultManager] insertNewMessage:userInfo];
-        [[MessageManager defaultManager] synthronizeMessages:nil];
         if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"isVoiceOn"]isEqualToString:@"on"]) {
             AudioServicesPlaySystemSound(1152);
         }
@@ -420,6 +422,10 @@
             alert.tag = 9;
             [alert show];
         }
+        
+        [[MessageManager defaultManager] insertNewMessage:userInfo read:YES];
+        [[MessageManager defaultManager] synthronizeMessages:nil];
+        
 //        [ByServerURL sendMessageRecord:string];//发送已读消息记录
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
 
@@ -438,15 +444,78 @@
     }
 
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refershMessage" object:self userInfo:nil];
-    //[BPush handleNotification:userInfo];
-    
-    if (application.applicationState != UIApplicationStateActive) {
-        
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"nstificationGo" object:nil userInfo:nil];
-        
-    }
  }
 }
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    
+    if (application.applicationState == UIApplicationStateBackground) {
+        if ([[ [NSUserDefaults standardUserDefaults] objectForKey:@"userGroup"]isEqual:@"BHC"]) {
+            if ([[userInfo objectForKey:@"aps"] objectForKey:@"alert"]!=NULL) {
+                [[MessageManager defaultManager] insertNewMessage:userInfo read:NO];
+                [UIApplication sharedApplication].applicationIconBadgeNumber++;
+                completionHandler(UIBackgroundFetchResultNewData);
+            }
+        }
+    }
+    else {
+        if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"isVoiceOn"]isEqualToString:@"on"]) {
+            AudioServicesPlaySystemSound(1152);
+        }
+        NSString *str;NSString *std;NSString *stm;
+        if ([UItool isChinese]==YES) {
+            str = @"通知";
+            std = @"确定";
+            stm = @"你有新的消息";
+        }
+        else{
+            str = @"Notification";
+            std = @"OK";
+            stm = @"You have a new message";
+        }
+        
+        if ([[ [NSUserDefaults standardUserDefaults] objectForKey:@"userGroup"]isEqual:@"BHC"]) {
+            if ([[userInfo objectForKey:@"aps"] objectForKey:@"alert"]!=NULL) {
+                NSString*string =[[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
+                
+                CustomAlert *alert = [[CustomAlert alloc] initWithTitle:nil contentText:string];
+                alert.tag = 9;
+                [alert show];
+//                NSArray *StringArray = [string componentsSeparatedByString:@"/"]; //从字符A中分隔成2个元素的数组
+//                if (StringArray.count==2) {
+//                    CustomAlert *alert = [[CustomAlert alloc] initWithTitle:StringArray[0] contentText:StringArray[1]];
+//                    alert.tag = 9;
+//                    [alert show];
+//                    
+//                }else{
+//                    
+//                    CustomAlert *alert = [[CustomAlert alloc] initWithTitle:nil contentText:StringArray[0]];
+//                    alert.tag = 9;
+//                    [alert show];
+//                }
+                
+                [[MessageManager defaultManager] insertNewMessage:userInfo read:YES];
+                [[MessageManager defaultManager] synthronizeMessages:nil];
+                
+                //        [ByServerURL sendMessageRecord:string];//发送已读消息记录
+                NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+                
+                if (![user objectForKey:@"messageArray"]) {
+                    
+                    NSMutableArray *messageArray = [NSMutableArray array];
+                    [user setObject:messageArray forKey:@"messageArray"];
+                    [user synchronize];
+                    
+                }
+                NSMutableArray *array = [NSMutableArray arrayWithArray:[user objectForKey:@"messageArray"]];
+                [array addObject:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"]];
+                [user setObject:array forKey:@"messageArray"];
+                [user synchronize];
+            }
+        }
+    }
+}
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertView.tag==9) {
@@ -481,15 +550,16 @@
     
     
     
-    NSArray *arr = [LocalSqlManger selectClass:@"BYinformation" ThroughTheKey:@"isRead" and:@"0"];
-    int i =0;
-    for (BYinformation *inforMation in arr) {
-        if ([inforMation.userGroup isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"userGroup"]]) {
-            i++;
-        }
-    }
+//    NSArray *arr = [LocalSqlManger selectClass:@"BYinformation" ThroughTheKey:@"isRead" and:@"0"];
+//    int i =0;
+//    for (BYinformation *inforMation in arr) {
+//        if ([inforMation.userGroup isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"userGroup"]]) {
+//            i++;
+//        }
+//    }
+//
     
-   [UIApplication sharedApplication].applicationIconBadgeNumber=i;
+   [UIApplication sharedApplication].applicationIconBadgeNumber=[MessageManager defaultManager].unReadCount;
 
     
     if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"outTime"] isEqualToString:@""]) {
@@ -522,8 +592,9 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeNotifyMark" object:nil];
     [[MessageManager defaultManager] synthronizeMessages:^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"refershMessage" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"changeNotifyMark" object:nil];
     }];
 }
 
